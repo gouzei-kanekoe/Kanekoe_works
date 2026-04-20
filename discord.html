@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>見字寫文｜鐘聲</title>
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    function resetPageScroll() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    }
+
+    function resetPageScrollSoon() {
+      resetPageScroll();
+      requestAnimationFrame(resetPageScroll);
+      setTimeout(resetPageScroll, 0);
+      setTimeout(resetPageScroll, 80);
+      setTimeout(resetPageScroll, 260);
+      setTimeout(resetPageScroll, 800);
+    }
+
+    document.addEventListener('DOMContentLoaded', resetPageScrollSoon);
+    window.addEventListener('pageshow', resetPageScrollSoon);
+    window.addEventListener('load', resetPageScrollSoon);
+    window.addEventListener('pagehide', resetPageScroll);
+
+    if (sessionStorage.getItem('aboutEntry') === '1') {
+      document.documentElement.classList.add('from-index');
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
+  </style>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #ffffff;
+      --ink: #000000;
+      --ink-quote: #f7f7f7;
+      --quote-active: #c0c6cc;
+      --menu-base: #a5a5a5;
+      --mobile-vh: 100svh;
+      --mobile-shell-top: calc(env(safe-area-inset-top) + clamp(38px, 6svh, 56px));
+      --mobile-shell-right: calc(env(safe-area-inset-right) + clamp(24px, 7vw, 52px));
+      --mobile-shell-bottom: calc(env(safe-area-inset-bottom) + clamp(28px, 5svh, 52px));
+      --mobile-shell-left: calc(env(safe-area-inset-left) + clamp(24px, 7vw, 52px));
+      --accent: #464e66;
+    }
+
+    @supports (height: 100dvh) {
+      :root {
+        --mobile-vh: 100dvh;
+        --mobile-shell-top: calc(env(safe-area-inset-top) + clamp(38px, 6dvh, 56px));
+        --mobile-shell-bottom: calc(env(safe-area-inset-bottom) + clamp(28px, 5dvh, 52px));
+      }
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Source Han Serif TC', 'Noto Serif TC', 'Songti TC', 'Songti SC', 'SimSun', serif;
+      font-weight: 600;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    img, a {
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+    }
+
+    .about-stage {
+      position: relative;
+      width: 100vw;
+      min-height: 100svh;
+      min-height: var(--mobile-vh);
+      overflow: hidden;
+      isolation: isolate;
+      background: #fff;
+    }
+
+    html.from-index .about-stage {
+      opacity: 0;
+      transform: translateX(8vw) scale(0.97);
+      animation: aboutEnter 0.80s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: 0.04s;
+    }
+
+    html.leaving-to-index .about-stage {
+      animation: leaveToIndex 0.48s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+      pointer-events: none;
+    }
+
+    @keyframes leaveToIndex {
+      from { opacity: 1; transform: translateX(0) scale(1); }
+      to   { opacity: 0; transform: translateX(8vw) scale(0.97); }
+    }
+
+    @keyframes aboutEnter {
+      from {
+        opacity: 0;
+        transform: translateX(8vw) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    .quote-field {
+      position: absolute;
+      left: clamp(44px, 6vw, 104px);
+      top: 12vh;
+      width: min(46vw, 760px);
+      height: 76vh;
+      padding: clamp(6px, 1vw, 18px);
+      z-index: 0;
+      touch-action: none;
+    }
+
+    .quote-grid {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .quote-grid .char {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-quote);
+      font-size: clamp(48px, 5.8vw, 108px);
+      font-weight: 700;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .about-content {
+      position: absolute;
+      top: clamp(64px, 12vh, 132px);
+      right: clamp(52px, 6.2vw, 110px);
+      z-index: 1;
+      width: clamp(360px, 34vw, 540px);
+      height: calc(100dvh - clamp(96px, 15vh, 150px));
+      display: grid;
+      grid-template-rows: auto auto minmax(140px, 27vh) 1fr auto;
+      justify-items: stretch;
+      align-items: start;
+    }
+
+    .page-title {
+      justify-self: end;
+      color: var(--menu-base);
+      font-size: clamp(13px, 1.1vw, 18px);
+      font-weight: 600;
+      letter-spacing: 0.6em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .banner-wrap {
+      justify-self: center;
+      margin-top: clamp(34px, 5.6vh, 64px);
+      width: min(100%, clamp(230px, 26vw, 430px));
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .server-banner {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .bio-scroll {
+      align-self: start;
+      margin-top: clamp(42px, 6vh, 76px);
+      width: 100%;
+      height: clamp(142px, 23vh, 240px);
+      overflow: auto;
+      scroll-behavior: smooth;
+      overscroll-behavior: contain;
+      padding-right: 1.1em;
+      line-height: 1.74;
+      font-size: clamp(12px, 0.9vw, 15px);
+      letter-spacing: 0.06em;
+      scrollbar-width: none;
+      user-select: none;
+    }
+
+    .bio-scroll::-webkit-scrollbar { display: none; }
+
+    .bio-scroll p {
+      margin-bottom: 1.35em;
+    }
+
+    .work-section + .work-section {
+      margin-top: 1.25em;
+    }
+
+    .work-heading {
+      margin-bottom: 0.28em;
+      font-size: 1em;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    .work-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 0;
+    }
+
+    .work-table th,
+    .work-table td {
+      border: 0;
+      padding: 0.08em 1.2em 0.08em 0;
+      text-align: left;
+      vertical-align: top;
+      font: inherit;
+      line-height: 1.58;
+    }
+
+    .work-table th {
+      width: 46%;
+      font-weight: 600;
+    }
+
+    .work-table td {
+      white-space: nowrap;
+    }
+
+    .return-link {
+      justify-self: end;
+      align-self: end;
+      margin-bottom: clamp(24px, 4vh, 44px);
+      color: var(--menu-base);
+      font-size: clamp(13px, 1.1vw, 18px);
+      font-weight: 600;
+      letter-spacing: 0.6em;
+      text-decoration: none;
+      transition: color 0.32s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .return-link:hover { color: var(--accent); }
+    }
+
+    .return-link:active { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .about-stage {
+        min-height: 100svh;
+        min-height: var(--mobile-vh);
+      }
+
+      .quote-field {
+        position: fixed;
+        left: 50%;
+        top: auto;
+        bottom: var(--mobile-shell-bottom);
+        transform: translate3d(-50%, 0, 0);
+        width: min(82vw, 360px);
+        height: clamp(250px, 36dvh, 330px);
+        padding: 0;
+        z-index: 0;
+      }
+
+      .quote-grid .char {
+        font-size: clamp(28px, 9.4vw, 44px);
+      }
+
+      .about-content {
+        top: var(--mobile-shell-top);
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: min(76vw, 390px);
+        height: calc(var(--mobile-vh) - var(--mobile-shell-top) - clamp(310px, 41dvh, 390px));
+        grid-template-rows: auto auto minmax(118px, 1fr);
+        row-gap: clamp(20px, 4.6dvh, 40px);
+      }
+
+      .page-title {
+        justify-self: end;
+        font-size: clamp(13px, 3.6vw, 16px);
+        letter-spacing: 0.45em;
+      }
+
+      .banner-wrap {
+        margin-top: 0;
+        width: min(100%, clamp(180px, 58vw, 280px));
+      }
+
+      .bio-scroll {
+        margin-top: 0;
+        height: 100%;
+        min-height: 0;
+        padding-right: 0.75em;
+        font-size: clamp(10px, 2.7vw, 13px);
+        line-height: 1.66;
+        letter-spacing: 0.04em;
+      }
+
+      .work-table th,
+      .work-table td {
+        padding-right: 0.65em;
+        line-height: 1.48;
+      }
+
+      .work-table th {
+        width: 48%;
+      }
+
+      .work-table td {
+        white-space: normal;
+      }
+
+      .return-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-bottom: 0;
+        justify-self: auto;
+        align-self: auto;
+        font-size: clamp(13px, 3.6vw, 16px);
+        letter-spacing: 0.45em;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .about-content {
+        width: 78vw;
+        height: calc(var(--mobile-vh) - var(--mobile-shell-top) - clamp(292px, 39dvh, 360px));
+        row-gap: clamp(18px, 4dvh, 34px);
+      }
+
+      .return-link {
+        left: 0;
+      }
+
+      .quote-field {
+        bottom: var(--mobile-shell-bottom);
+        width: 84vw;
+        height: clamp(238px, 35dvh, 308px);
+      }
+
+      .bio-scroll {
+        height: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<main class="about-stage">
+  <section id="quote-field" class="quote-field" aria-label="主視覺引言">
+    <div id="quote-grid" class="quote-grid"></div>
+  </section>
+
+  <section class="about-content" aria-labelledby="about-title">
+    <h1 id="about-title" class="page-title">見字寫文</h1>
+
+    <div class="banner-wrap">
+      <a class="banner-link" href="https://discord.gg/tg7Uga64JK" target="_blank" rel="noopener noreferrer" aria-label="加入見字寫文 Discord 伺服器">
+        <img class="server-banner" src="pic/discord-server-banner.png" alt="見字寫文 Discord 伺服器">
+      </a>
+    </div>
+
+    <div class="bio-scroll" tabindex="0">
+      <p>「見字寫文」是主要面向香港／粵語使用者的 Discord 交流伺服器。除一般聊天外，還有長期的寫作（與非寫作）線上活動、不定期讀書會，還有不同成員的文史哲課題分享和講座。</p>
+      <p>歡迎各位點擊 Banner，參加伺服器。</p>
+    </div>
+
+    <a class="return-link" href="index.html">返回目錄</a>
+  </section>
+</main>
+
+<script>
+(function () {
+  function lockCopyActions() {
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('cut', e => e.preventDefault());
+    document.addEventListener('dragstart', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      const key = e.key.toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'x'].includes(key)) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  lockCopyActions();
+
+  sessionStorage.removeItem('aboutEntry');
+
+  const QUOTE = '在寫作路上，我們互相鼓勵與扶持，一同努力。';
+  const BASE_RGB = [247, 247, 247];
+  const HOVER_RGB = [192, 198, 204];
+
+  const quoteFieldEl = document.getElementById('quote-field');
+  const quoteGridEl = document.getElementById('quote-grid');
+  const returnLinkEl = document.querySelector('.return-link');
+
+  const chars = QUOTE.split('');
+  const cols = Math.max(2, Math.floor(Math.sqrt(chars.length)));
+  const rows = Math.ceil(chars.length / cols);
+
+  quoteGridEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  quoteGridEl.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+  const charEls = [];
+  chars.forEach((ch, i) => {
+    const colIndex = Math.floor(i / rows);
+    const rowIndex = i % rows;
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.textContent = ch;
+    span.style.gridColumn = (cols - colIndex);
+    span.style.gridRow = (rowIndex + 1);
+    quoteGridEl.appendChild(span);
+    charEls.push(span);
+  });
+
+  let cachedRects = [];
+
+  function cacheRects() {
+    cachedRects = charEls.map(el => ({
+      el,
+      rect: el.getBoundingClientRect()
+    }));
+  }
+
+  function clearPaint() {
+    charEls.forEach(el => { el.style.color = `rgb(${BASE_RGB.join(',')})`; });
+  }
+
+  function paintFromPoint(x, y) {
+    if (!cachedRects.length) cacheRects();
+    cachedRects.forEach(({ el, rect }) => {
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
+      const range = Math.max(rect.width, rect.height) * 2.4;
+      const t = Math.max(0, 1 - dist / range);
+      const smooth = t * t * (3 - 2 * t);
+      const r = Math.round(BASE_RGB[0] + smooth * (HOVER_RGB[0] - BASE_RGB[0]));
+      const g = Math.round(BASE_RGB[1] + smooth * (HOVER_RGB[1] - BASE_RGB[1]));
+      const b = Math.round(BASE_RGB[2] + smooth * (HOVER_RGB[2] - BASE_RGB[2]));
+      el.style.color = `rgb(${r},${g},${b})`;
+    });
+  }
+
+  quoteFieldEl.addEventListener('pointerenter', cacheRects);
+  quoteFieldEl.addEventListener('pointermove', e => paintFromPoint(e.clientX, e.clientY));
+  quoteFieldEl.addEventListener('pointerleave', clearPaint);
+  quoteFieldEl.addEventListener('touchstart', e => {
+    const t = e.touches[0]; if (!t) return;
+    cacheRects(); paintFromPoint(t.clientX, t.clientY);
+  }, { passive: true });
+  quoteFieldEl.addEventListener('touchmove', e => {
+    const t = e.touches[0]; if (!t) return;
+    paintFromPoint(t.clientX, t.clientY);
+  }, { passive: true });
+  quoteFieldEl.addEventListener('touchend', clearPaint, { passive: true });
+
+  function isMobileViewport() {
+    return window.innerWidth <= 768;
+  }
+
+  function paintTouchEvent(e) {
+    if (!isMobileViewport()) return;
+    const t = e.touches[0]; if (!t) return;
+    cacheRects();
+    paintFromPoint(t.clientX, t.clientY);
+  }
+
+  function installSoftScroll(selector) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    document.querySelectorAll(selector).forEach(scroller => {
+      let target = scroller.scrollTop;
+      let current = scroller.scrollTop;
+      let rafId = 0;
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function getDelta(e) {
+        if (e.deltaMode === 1) return e.deltaY * 18;
+        if (e.deltaMode === 2) return e.deltaY * scroller.clientHeight;
+        return e.deltaY;
+      }
+
+      function step() {
+        current += (target - current) * 0.18;
+
+        if (Math.abs(target - current) < 0.5) {
+          current = target;
+          rafId = 0;
+        } else {
+          rafId = window.requestAnimationFrame(step);
+        }
+
+        scroller.scrollTop = current;
+      }
+
+      scroller.addEventListener('wheel', e => {
+        const max = scroller.scrollHeight - scroller.clientHeight;
+        if (max <= 0) return;
+
+        const delta = getDelta(e);
+        const next = clamp(target + delta, 0, max);
+        const blocked = (target === 0 && delta < 0) || (target === max && delta > 0);
+        if (blocked) return;
+
+        e.preventDefault();
+        target = next;
+        if (!rafId) {
+          current = scroller.scrollTop;
+          rafId = window.requestAnimationFrame(step);
+        }
+      }, { passive: false });
+
+      scroller.addEventListener('scroll', () => {
+        if (!rafId) target = scroller.scrollTop;
+      }, { passive: true });
+    });
+  }
+
+  document.addEventListener('pointerdown', e => {
+    if (!isMobileViewport()) return;
+    cacheRects();
+    paintFromPoint(e.clientX, e.clientY);
+  }, { passive: true });
+  document.addEventListener('pointermove', e => {
+    if (!isMobileViewport()) return;
+    paintFromPoint(e.clientX, e.clientY);
+  }, { passive: true });
+  document.addEventListener('pointerup', () => {
+    if (isMobileViewport()) clearPaint();
+  }, { passive: true });
+  document.addEventListener('touchstart', paintTouchEvent, { passive: true });
+  document.addEventListener('touchmove', paintTouchEvent, { passive: true });
+  document.addEventListener('touchend', () => {
+    if (isMobileViewport()) clearPaint();
+  }, { passive: true });
+
+  if (returnLinkEl) {
+    returnLinkEl.addEventListener('click', e => {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      sessionStorage.setItem('returnToMenu', '1');
+      document.documentElement.classList.add('leaving-to-index');
+      window.setTimeout(() => {
+        window.location.href = returnLinkEl.href;
+      }, 460);
+    });
+  }
+
+  window.addEventListener('resize', cacheRects);
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(cacheRects).observe(quoteFieldEl);
+  }
+  installSoftScroll('.bio-scroll');
+  cacheRects();
+})();
+</script>
+</body>
+</html>

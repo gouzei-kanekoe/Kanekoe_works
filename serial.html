@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>連載作品｜鐘聲</title>
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    function resetPageScroll() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    }
+
+    function resetPageScrollSoon() {
+      resetPageScroll();
+      requestAnimationFrame(resetPageScroll);
+      setTimeout(resetPageScroll, 0);
+      setTimeout(resetPageScroll, 80);
+      setTimeout(resetPageScroll, 260);
+      setTimeout(resetPageScroll, 800);
+    }
+
+    document.addEventListener('DOMContentLoaded', resetPageScrollSoon);
+    window.addEventListener('pageshow', resetPageScrollSoon);
+    window.addEventListener('load', resetPageScrollSoon);
+    window.addEventListener('pagehide', resetPageScroll);
+
+    if (sessionStorage.getItem('aboutEntry') === '1') {
+      document.documentElement.classList.add('from-index');
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
+  </style>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #ffffff;
+      --ink: #000000;
+      --ink-quote: #f7f7f7;
+      --quote-active: #c0c6cc;
+      --menu-base: #a5a5a5;
+      --mobile-vh: 100svh;
+      --mobile-shell-top: calc(env(safe-area-inset-top) + clamp(38px, 6svh, 56px));
+      --mobile-shell-right: calc(env(safe-area-inset-right) + clamp(24px, 7vw, 52px));
+      --mobile-shell-bottom: calc(env(safe-area-inset-bottom) + clamp(28px, 5svh, 52px));
+      --mobile-shell-left: calc(env(safe-area-inset-left) + clamp(24px, 7vw, 52px));
+      --accent: #464e66;
+      --line: rgba(0, 0, 0, 0.16);
+      --cover-ratio: 875 / 440;
+    }
+
+    @supports (height: 100dvh) {
+      :root {
+        --mobile-vh: 100dvh;
+        --mobile-shell-top: calc(env(safe-area-inset-top) + clamp(38px, 6dvh, 56px));
+        --mobile-shell-bottom: calc(env(safe-area-inset-bottom) + clamp(28px, 5dvh, 52px));
+      }
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Source Han Serif TC', 'Noto Serif TC', 'Songti TC', 'Songti SC', 'SimSun', serif;
+      font-weight: 600;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    a, button {
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+    }
+
+    .about-stage {
+      position: relative;
+      width: 100vw;
+      min-height: 100svh;
+      min-height: var(--mobile-vh);
+      overflow: hidden;
+      isolation: isolate;
+      background: #fff;
+    }
+
+    html.from-index .about-stage {
+      opacity: 0;
+      transform: translateX(8vw) scale(0.97);
+      animation: aboutEnter 0.80s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: 0.04s;
+    }
+
+    html.leaving-to-index .about-stage {
+      animation: leaveToIndex 0.48s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+      pointer-events: none;
+    }
+
+    @keyframes leaveToIndex {
+      from { opacity: 1; transform: translateX(0) scale(1); }
+      to   { opacity: 0; transform: translateX(8vw) scale(0.97); }
+    }
+
+    @keyframes aboutEnter {
+      from { opacity: 0; transform: translateX(8vw) scale(0.97); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    .quote-field {
+      position: absolute;
+      left: clamp(44px, 6vw, 104px);
+      top: 12vh;
+      width: min(46vw, 760px);
+      height: 76vh;
+      padding: clamp(6px, 1vw, 18px);
+      z-index: 0;
+      touch-action: none;
+    }
+
+    .quote-grid {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      align-content: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.22s ease;
+      will-change: transform;
+    }
+
+    .quote-grid.is-changing {
+      opacity: 0;
+    }
+
+    .quote-grid .char {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-quote);
+      font-size: clamp(48px, 5.8vw, 108px);
+      font-weight: 700;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .about-content {
+      position: absolute;
+      top: clamp(64px, 12vh, 132px);
+      right: clamp(52px, 6.2vw, 110px);
+      bottom: max(clamp(72px, 10vh, 120px), env(safe-area-inset-bottom));
+      z-index: 1;
+      width: clamp(420px, 44vw, 680px);
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      justify-items: stretch;
+      align-items: start;
+    }
+
+    .page-title {
+      justify-self: end;
+      color: var(--menu-base);
+      font-size: clamp(13px, 1.1vw, 18px);
+      font-weight: 600;
+      letter-spacing: 0.6em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .feature-wrap {
+      justify-self: center;
+      margin-top: clamp(34px, 5.6vh, 64px);
+      width: clamp(260px, 24vw, 430px);
+      aspect-ratio: var(--cover-ratio);
+    }
+
+    .feature-box {
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #fff;
+      transition: border-color 0.28s ease, color 0.28s ease, opacity 0.22s ease;
+    }
+
+    .cover-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .catalog-scroll {
+      align-self: stretch;
+      margin-top: clamp(34px, 5vh, 58px);
+      width: 100%;
+      min-height: 0;
+      overflow: hidden;
+      padding: 0.42em 1.15em 0.54em 0.28em;
+      background:
+        linear-gradient(#fff 18%, rgba(255,255,255,0)) center top,
+        linear-gradient(rgba(255,255,255,0), #fff 82%) center bottom,
+        radial-gradient(farthest-side at 50% 0, rgba(70,78,102,0.08), transparent) center top,
+        radial-gradient(farthest-side at 50% 100%, rgba(70,78,102,0.07), transparent) center bottom;
+      background-repeat: no-repeat;
+      background-size: 100% 24px, 100% 24px, 100% 12px, 100% 12px;
+      background-attachment: local, local, scroll, scroll;
+    }
+
+    .catalog-scroll::-webkit-scrollbar { display: none; }
+
+    .catalog-toggle {
+      display: none;
+    }
+
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: minmax(140px, 0.80fr) minmax(0, 1.30fr);
+      gap: clamp(20px, 3vw, 42px);
+      align-items: stretch;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15em;
+      min-height: 0;
+      overflow: auto;
+      scroll-behavior: smooth;
+      overscroll-behavior: contain;
+      padding-right: 0.7em;
+      scrollbar-width: none;
+    }
+
+    .item-list::-webkit-scrollbar,
+    .detail-panel::-webkit-scrollbar { display: none; }
+
+    .category-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.62em;
+    }
+
+    .category-title {
+      color: var(--menu-base);
+      font-size: clamp(10px, 0.74vw, 12px);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      line-height: 1.4;
+      padding-left: 1em;
+    }
+
+    .category-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.72em;
+    }
+
+    .item-button {
+      width: 100%;
+      border: 0;
+      border-left: 1px solid var(--line);
+      background: transparent;
+      color: var(--menu-base);
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      line-height: 1.62;
+      padding: 0.16em 0 0.16em 1em;
+      transition: color 0.28s ease, border-color 0.28s ease, transform 0.28s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .item-button strong {
+      display: block;
+      color: inherit;
+      font-size: clamp(12px, 0.9vw, 15px);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .item-button span {
+      display: block;
+      margin-top: 0.12em;
+      color: rgba(0, 0, 0, 0.38);
+      font-size: clamp(10px, 0.76vw, 12px);
+      letter-spacing: 0.08em;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .item-button:hover {
+        color: var(--accent);
+        border-color: rgba(70, 78, 102, 0.46);
+        transform: translateX(0.2em);
+      }
+    }
+
+    .item-button.is-active {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .detail-panel {
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      padding-left: clamp(18px, 2.4vw, 32px);
+      padding-right: 1em;
+      min-height: 0;
+      overflow: auto;
+      scroll-behavior: smooth;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .detail-panel.is-changing,
+    .feature-box.is-changing { opacity: 0; }
+
+    .detail-type {
+      margin-bottom: 0.58em;
+    }
+
+    .detail-title {
+      margin-bottom: clamp(14px, 2vh, 24px);
+    }
+
+    .detail-type-image,
+    .detail-title-image {
+      display: block;
+      height: auto;
+      object-fit: contain;
+      object-position: left center;
+      pointer-events: none;
+    }
+
+    .detail-type-image {
+      width: min(42%, 170px);
+      opacity: 0.72;
+    }
+
+    .detail-title-image {
+      width: min(100%, 430px);
+    }
+
+    .detail-summary {
+      font-size: clamp(12px, 0.9vw, 15px);
+      line-height: 1.78;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.25em;
+      white-space: pre-wrap;
+    }
+
+    .detail-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.58em;
+      margin-top: 1.25em;
+    }
+
+    .detail-link {
+      display: block;
+      width: fit-content;
+      border-left: 1px solid var(--line);
+      padding: 0.12em 0 0.12em 1em;
+      color: var(--accent);
+      font-size: clamp(11px, 0.84vw, 13px);
+      line-height: 1.55;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: color 0.26s ease, border-color 0.26s ease, transform 0.26s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .detail-link:hover {
+        color: #000;
+        border-color: var(--accent);
+        transform: translateX(0.16em);
+      }
+    }
+
+    .return-link {
+      position: fixed;
+      top: auto;
+      left: auto;
+      right: max(clamp(36px, 5vw, 84px), env(safe-area-inset-right));
+      bottom: max(clamp(32px, 5vh, 72px), env(safe-area-inset-bottom));
+      z-index: 20;
+      color: var(--menu-base);
+      font-size: clamp(13px, 1.1vw, 18px);
+      letter-spacing: 0.6em;
+      line-height: 1.2;
+      text-decoration: none;
+      transition: color 0.32s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .return-link:hover { color: var(--accent); }
+    }
+    .return-link:active { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      html,
+      body {
+        height: auto;
+        min-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      html.catalog-modal-open,
+      html.catalog-modal-open body {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .about-stage {
+        height: auto;
+        min-height: 100svh;
+        min-height: var(--mobile-vh);
+        overflow: hidden;
+        padding-bottom: var(--mobile-shell-bottom);
+      }
+
+      .quote-field {
+        position: absolute;
+        left: 50%;
+        top: clamp(300px, 39dvh, 410px);
+        transform: translate3d(-50%, 0, 0);
+        width: min(82vw, 440px);
+        height: auto;
+        aspect-ratio: 1;
+        padding: 0;
+        z-index: 0;
+      }
+
+      .quote-grid .char {
+        width: var(--quote-cell, 44px);
+        height: var(--quote-cell, 44px);
+        font-size: clamp(34px, 11vw, 54px);
+      }
+
+      .page-title,
+      .feature-wrap,
+      .quote-field,
+      .detail-panel,
+      .return-link {
+        transition: filter 0.28s ease, opacity 0.28s ease;
+      }
+
+      html.catalog-modal-open .page-title,
+      html.catalog-modal-open .feature-wrap,
+      html.catalog-modal-open .quote-field,
+      html.catalog-modal-open .detail-panel,
+      html.catalog-modal-open .return-link {
+        filter: blur(6px);
+        opacity: 0.34;
+        pointer-events: none;
+      }
+
+      .about-content {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        transform: none;
+        margin: var(--mobile-shell-top) auto var(--mobile-shell-bottom);
+        width: min(82vw, 460px);
+        height: auto;
+        min-height: 0;
+        grid-template-rows: auto auto auto;
+        row-gap: clamp(14px, 3dvh, 28px);
+      }
+
+      .page-title {
+        justify-self: end;
+        font-size: clamp(13px, 3.6vw, 16px);
+        letter-spacing: 0.45em;
+      }
+
+      .feature-wrap {
+        margin-top: 0;
+        width: min(70vw, 320px);
+      }
+
+      .feature-box {
+        padding: 0;
+      }
+
+      .catalog-scroll {
+        --serial-detail-size: min(82vw, 390px);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: clamp(14px, 3dvh, 26px);
+        align-items: stretch;
+        margin-top: 0;
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+        padding: 0.18em 0 0.32em;
+        background: none;
+      }
+
+      .catalog-scroll::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.72);
+        -webkit-backdrop-filter: blur(13px);
+        backdrop-filter: blur(13px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+      }
+
+      .catalog-scroll.is-open::before {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .catalog-toggle {
+        order: 2;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.72em;
+        width: 100%;
+        border: 0;
+        border-left: 1px solid var(--line);
+        background: transparent;
+        color: var(--menu-base);
+        cursor: pointer;
+        font: inherit;
+        line-height: 1.45;
+        padding: 0.42em 0 0.42em 1em;
+        text-align: left;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .catalog-toggle-main {
+        font-size: clamp(12px, 3vw, 14px);
+        letter-spacing: 0.22em;
+        white-space: nowrap;
+      }
+
+      .catalog-toggle-current {
+        min-width: 0;
+        overflow: hidden;
+        color: var(--accent);
+        font-size: clamp(12px, 3vw, 14px);
+        letter-spacing: 0.08em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .catalog-toggle-mark {
+        width: 1.4em;
+        color: var(--accent);
+        font-size: clamp(22px, 6vw, 28px);
+        line-height: 1;
+        text-align: center;
+      }
+
+      .catalog-toggle-mark::before {
+        content: "+";
+      }
+
+      .catalog-scroll.is-open .catalog-toggle-mark::before {
+        content: "-";
+      }
+
+      .catalog-scroll.is-open .catalog-toggle {
+        position: fixed;
+        top: var(--mobile-shell-top);
+        left: var(--mobile-shell-left);
+        right: var(--mobile-shell-right);
+        z-index: 62;
+        width: auto;
+        background: rgba(255, 255, 255, 0.82);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+      }
+
+      .catalog-layout {
+        display: contents;
+      }
+
+      .item-list {
+        order: 3;
+        display: flex;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        padding: 0;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        transition: max-height 0.32s ease, opacity 0.24s ease, padding 0.24s ease;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .catalog-scroll.is-open .item-list {
+        position: fixed;
+        top: calc(var(--mobile-shell-top) + clamp(62px, 11dvh, 92px));
+        left: var(--mobile-shell-left);
+        right: var(--mobile-shell-right);
+        bottom: var(--mobile-shell-bottom);
+        z-index: 61;
+        max-height: none;
+        opacity: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0.4em 0.2em 1.1em 0;
+        gap: clamp(18px, 4dvh, 30px);
+      }
+
+      .category-group {
+        gap: 0.7em;
+      }
+
+      .category-title {
+        font-size: clamp(10px, 2.6vw, 12px);
+        letter-spacing: 0.2em;
+      }
+
+      .category-items {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.78em 0.9em;
+      }
+
+      .detail-panel {
+        order: 1;
+        width: var(--serial-detail-size);
+        height: var(--serial-detail-size);
+        aspect-ratio: 1 / 1;
+        align-self: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+        min-height: 0;
+        margin-top: 0;
+        padding-left: 1em;
+        padding-right: 0.12em;
+        scroll-margin-top: calc(var(--mobile-shell-top) + clamp(24px, 4dvh, 40px));
+        position: relative;
+        z-index: 1;
+      }
+
+      .detail-type-image {
+        width: min(38%, 140px);
+      }
+
+      .detail-title-image {
+        width: min(100%, 340px);
+      }
+
+      .item-button strong {
+        font-size: clamp(12px, 3vw, 14px);
+      }
+
+      .item-button span {
+        font-size: clamp(10px, 2.6vw, 12px);
+      }
+
+      .detail-summary {
+        font-size: clamp(12px, 3.05vw, 14px);
+        line-height: 1.72;
+      }
+
+      .detail-link {
+        font-size: clamp(12px, 3vw, 14px);
+        line-height: 1.56;
+      }
+
+      .return-link {
+        top: var(--mobile-shell-top);
+        left: var(--mobile-shell-left);
+        right: auto;
+        bottom: auto;
+        font-size: clamp(13px, 3.6vw, 16px);
+        letter-spacing: 0.45em;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .about-content {
+        width: 84vw;
+      }
+
+      .feature-wrap {
+        width: min(68vw, 300px);
+      }
+
+      .quote-field {
+        top: clamp(292px, 38dvh, 390px);
+        bottom: var(--mobile-shell-bottom);
+        width: 84vw;
+      }
+
+      .catalog-toggle {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+
+      .category-items {
+        grid-template-columns: 1fr;
+      }
+
+      .return-link {
+        left: var(--mobile-shell-left);
+      }
+    }
+  </style>
+</head>
+<body>
+<main class="about-stage">
+  <section id="quote-field" class="quote-field" aria-label="背景文字">
+    <div id="quote-grid" class="quote-grid"></div>
+  </section>
+
+  <section class="about-content" aria-labelledby="about-title">
+    <h1 id="about-title" class="page-title">連載作品</h1>
+
+    <div class="feature-wrap" aria-hidden="true">
+      <div id="feature-box" class="feature-box">
+        <img id="cover-image" class="cover-image" src="pic/serial-01.png" alt="">
+      </div>
+    </div>
+
+    <div class="catalog-scroll" tabindex="0">
+      <button id="catalog-toggle" class="catalog-toggle" type="button" aria-expanded="false" aria-controls="item-list">
+        <span class="catalog-toggle-main">作品目錄</span>
+        <span id="catalog-toggle-current" class="catalog-toggle-current"></span>
+        <span class="catalog-toggle-mark" aria-hidden="true"></span>
+      </button>
+
+      <div class="catalog-layout">
+        <nav id="item-list" class="item-list" aria-label="作品列表"></nav>
+
+        <article id="work-detail" class="detail-panel" aria-live="polite">
+          <p id="detail-type" class="detail-type">
+            <img id="type-image" class="detail-type-image" src="pic/type-01.png" alt="">
+          </p>
+          <h2 id="detail-title" class="detail-title">
+            <img id="title-image" class="detail-title-image" src="pic/TITLE-01.png" alt="">
+          </h2>
+          <div id="detail-summary" class="detail-summary"></div>
+          <div id="detail-links" class="detail-links" aria-label="閱讀連結"></div>
+        </article>
+      </div>
+    </div>
+
+  </section>
+
+  <a class="return-link" href="index.html">返回目錄</a>
+</main>
+
+<script>
+(function () {
+  function lockCopyActions() {
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('cut', e => e.preventDefault());
+    document.addEventListener('dragstart', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      const key = e.key.toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'x'].includes(key)) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  lockCopyActions();
+  sessionStorage.removeItem('aboutEntry');
+
+  const WORKS = [
+    {
+      id: 'tonight-fireworks',
+      category: '煙火系列',
+      coverId: '01',
+      title: '《今夜煙火燦爛》',
+      type: '煙火系列 本篇',
+      teaser: '本篇: 愛與勇氣的故事',
+      quote: '如果人生再重來一次，你仍會在煙火大會上，對我說▉▉▉嗎？',
+      description: `為了能再次遇見「你」，再向你說出「那句話」，
+於是「我」決定接受「試煉」，回到那個熟悉，卻有點不一樣的高中一年級。
+
+《煙火系列》本篇 ——\u00a0
+那是一位少女如何重新經歷與成長，以及如何勇敢向所愛的人說出心底話的故事。
+類型: 百合, 愛情, 校園
+集數: 全50話+特別篇2話
+進度: 已完結`,
+      links: [
+        { label: '點擊閱讀(Penana)', url: 'https://www.penana.com/story/156676/%E4%BB%8A%E5%A4%9C%E7%85%99%E7%81%AB%E7%87%A6%E7%88%9B-choosing-is-an-act-of-courage-%E5%81%A5%E5%85%A8%E7%89%88/' },
+        { label: '點擊閱讀(CXC)', url: 'https://cxc.today/zh/@Kanekoe/work/44777' }
+      ]
+    },
+    {
+      id: 'this-year-fireworks',
+      category: '煙火系列',
+      coverId: '02',
+      title: '《今年煙火仍然燦爛》',
+      type: '煙火系列 後傳',
+      teaser: '後傳: 愛與選擇的故事',
+      quote: '你知道，北極星為什麼總是那麼明亮嗎？',
+      description: `那年盛夏的煙火，「她」回到了「我」的身邊。
+我們以為幸福終於能夠持續下去，直到那個「熟悉的畫面」再次出現……
+
+《煙火系列》後傳 ——\u00a0
+在《今夜煙火燦爛》之後，兩名女性在幸福的背後，如何以愛作出選擇的故事。
+類型: 百合, 愛情
+集數: 全11話+特別篇5話
+進度: 已完結`,
+      links: [
+        { label: '點擊閱讀(Penana)', url: 'https://www.penana.com/story/180065/%E4%BB%8A%E5%B9%B4%E7%85%99%E7%81%AB%E4%BB%8D%E7%84%B6%E7%87%A6%E7%88%9B-far-away-home/' },
+        { label: '點擊閱讀(CXC)', url: 'https://cxc.today/zh/@Kanekoe/work/44778' }
+      ]
+    },
+    {
+      id: 'cafe-daybreak',
+      category: '煙火系列',
+      coverId: '03',
+      title: '《街角珈啡店「破曉」》',
+      type: '煙火系列 外傳',
+      teaser: '外傳: 愛與承擔的故事',
+      quote: '願迷路的靈魂，都能夠找到回家的路。',
+      description: `「我」忘記了自己是誰，只記得名字好像是 「時葉」。
+「她們」在寒夜裡遞上咖啡，邀請「我」留下，
+並成為店內的見習生，一同傾聽迷路靈魂的心願。
+
+《煙火系列》外傳 ——
+那是少女與兩名女性在咖啡廳「破曉」裡面，如何學會選擇和承擔的故事。
+類型: 百合, 親情, 成長
+進度: 連載中`,
+      links: [
+        { label: '點擊閱讀(Penana)', url: 'https://www.penana.com/story/202645/%E8%A1%97%E8%A7%92%E7%8F%88%E5%95%A1%E5%BA%97-%E7%A0%B4%E6%9B%89-le-caf%C3%A9-purgatoire/' },
+        { label: '點擊閱讀(CXC)', url: 'https://cxc.today/zh/@Kanekoe/work/47051' }
+      ]
+    },
+    {
+      id: 'library-chapter',
+      category: '煙火系列',
+      coverId: '04',
+      title: '「圖書館篇」',
+      type: '外傳',
+      teaser: '外傳: 愛與▉▉的故事',
+      quote: '關於圖書館裡，愛與▉▉的故事。',
+      description: `關於圖書館裡, 愛與▉▉的故事。
+類型: 百合
+進度: 待發表`,
+      links: []
+    },
+    {
+      id: 'plate-us',
+      category: '連載',
+      coverId: '05',
+      title: '《盤子上的你我他》',
+      type: '短篇連載',
+      teaser: '新年禮: 三段沒有交集的愛',
+      quote: '我們都在愛一個，從不愛自己的人。',
+      description: `這是關於賀年糕點三寶 —— 年糕，蘿蔔糕和XO醬
+三個人的愛，從來沒有交集的耽美故事。
+
+鐘聲獻給大家的2026年新年禮
+類型: 耽美
+集數: 全3話
+進度: 已完結`,
+      links: [
+        { label: '點擊閱讀(Penana)', url: 'https://www.penana.com/story/204788/%E7%9B%A4%E5%AD%90%E4%B8%8A%E7%9A%84%E4%BD%A0%E6%88%91%E4%BB%96/' },
+        { label: '點擊閱讀(CXC)', url: 'https://cxc.today/zh/@Kanekoe/work/47924' }
+      ]
+    },
+    {
+      id: 'love-and-hate',
+      category: '隨筆',
+      coverId: '06',
+      title: '《無處安放我的愛與恨》',
+      type: '隨筆',
+      teaser: '隨筆, 以及各種單篇創作',
+      quote: '無數個夜裡，我帶著對那個人的愛與恨；然後提筆記下種種。',
+      description: `各種隨筆, 以及單篇寫作, 還有詩篇連載`,
+      links: [
+        { label: '點擊閱讀(Penana)', url: 'https://www.penana.com/story/191488/%E7%84%A1%E8%99%95%E5%AE%89%E6%94%BE%E6%88%91%E7%9A%84%E6%84%9B%E8%88%87%E6%81%A8/' }
+      ]
+    }
+  ];
+
+  const CATEGORY_ORDER = ['煙火系列', '連載', '隨筆'];
+  const DEFAULT_QUOTE = '連載作品像是一排尚未熄滅的燈，點一下，就走進另一間房。';
+  const BASE_RGB = [247, 247, 247];
+  const HOVER_RGB = [192, 198, 204];
+
+  const quoteFieldEl = document.getElementById('quote-field');
+  const quoteGridEl = document.getElementById('quote-grid');
+  const returnLinkEl = document.querySelector('.return-link');
+  const catalogScrollEl = document.querySelector('.catalog-scroll');
+  const catalogToggleEl = document.getElementById('catalog-toggle');
+  const catalogCurrentEl = document.getElementById('catalog-toggle-current');
+  const itemListEl = document.getElementById('item-list');
+  const featureBoxEl = document.getElementById('feature-box');
+  const coverImageEl = document.getElementById('cover-image');
+  const detailTypeEl = document.getElementById('detail-type');
+  const detailTitleEl = document.getElementById('detail-title');
+  const detailPanelEl = document.querySelector('.detail-panel');
+  const typeImageEl = document.getElementById('type-image');
+  const titleImageEl = document.getElementById('title-image');
+  const detailSummaryEl = document.getElementById('detail-summary');
+  const detailLinksEl = document.getElementById('detail-links');
+
+  let charEls = [];
+  let cachedRects = [];
+  let activeQuote = '';
+
+  function getQuoteLayout(length) {
+    if (!isMobileViewport()) {
+      const cols = Math.max(2, Math.floor(Math.sqrt(length)));
+      return { cols, rows: Math.ceil(length / cols), cellSize: '' };
+    }
+
+    const rect = quoteFieldEl.getBoundingClientRect();
+    const fieldWidth = rect.width || Math.min(window.innerWidth * 0.88, 440);
+    const fieldHeight = rect.height || Math.max(window.innerHeight - rect.top - 28, 240);
+    let best = { cols: length, rows: 1, cellSize: Math.max(24, Math.floor(fieldWidth / Math.max(1, length))) };
+
+    for (let rows = 1; rows <= length; rows += 1) {
+      const cols = Math.ceil(length / rows);
+      const cellSize = Math.floor(Math.min(fieldWidth / cols, fieldHeight / rows));
+      if (cellSize > best.cellSize) {
+        best = { cols, rows, cellSize };
+      }
+    }
+
+    best.cellSize = Math.max(32, Math.min(best.cellSize, 72));
+    return best;
+  }
+
+  function buildQuote(quote) {
+    const chars = quote.split('');
+    const { cols, rows, cellSize } = getQuoteLayout(chars.length);
+
+    quoteGridEl.replaceChildren();
+    if (isMobileViewport()) {
+      quoteGridEl.style.setProperty('--quote-cell', `${cellSize}px`);
+      quoteGridEl.style.gridTemplateColumns = `repeat(${cols}, var(--quote-cell))`;
+      quoteGridEl.style.gridTemplateRows = `repeat(${rows}, var(--quote-cell))`;
+    } else {
+      quoteGridEl.style.removeProperty('--quote-cell');
+      quoteGridEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+      quoteGridEl.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    }
+    charEls = [];
+
+    chars.forEach((ch, i) => {
+      const colIndex = Math.floor(i / rows);
+      const rowIndex = i % rows;
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = ch;
+      span.style.gridColumn = (cols - colIndex);
+      span.style.gridRow = (rowIndex + 1);
+      quoteGridEl.appendChild(span);
+      charEls.push(span);
+    });
+
+    cachedRects = [];
+    cacheRects();
+  }
+
+  function rebuildActiveQuote() {
+    if (!activeQuote) return;
+    buildQuote(activeQuote);
+  }
+
+  function renderQuote(quote) {
+    const nextQuote = quote || DEFAULT_QUOTE;
+    if (nextQuote === activeQuote) return;
+    activeQuote = nextQuote;
+
+    if (!quoteGridEl.childElementCount) {
+      buildQuote(nextQuote);
+      return;
+    }
+
+    quoteGridEl.classList.add('is-changing');
+    window.setTimeout(() => {
+      buildQuote(nextQuote);
+      quoteGridEl.classList.remove('is-changing');
+    }, 220);
+  }
+
+  function cacheRects() {
+    cachedRects = charEls.map(el => ({ el, rect: el.getBoundingClientRect() }));
+  }
+
+  function clearPaint() {
+    charEls.forEach(el => { el.style.color = `rgb(${BASE_RGB.join(',')})`; });
+  }
+
+  function paintFromPoint(x, y) {
+    if (!cachedRects.length) cacheRects();
+    cachedRects.forEach(({ el, rect }) => {
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
+      const range = Math.max(rect.width, rect.height) * 2.4;
+      const t = Math.max(0, 1 - dist / range);
+      const smooth = t * t * (3 - 2 * t);
+      const r = Math.round(BASE_RGB[0] + smooth * (HOVER_RGB[0] - BASE_RGB[0]));
+      const g = Math.round(BASE_RGB[1] + smooth * (HOVER_RGB[1] - BASE_RGB[1]));
+      const b = Math.round(BASE_RGB[2] + smooth * (HOVER_RGB[2] - BASE_RGB[2]));
+      el.style.color = `rgb(${r},${g},${b})`;
+    });
+  }
+
+  function isMobileViewport() {
+    return window.innerWidth <= 768;
+  }
+
+  function isPointInQuoteField(x, y) {
+    const rect = quoteFieldEl.getBoundingClientRect();
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  }
+
+  function setCatalogOpen(isOpen) {
+    if (!catalogScrollEl || !catalogToggleEl) return;
+    catalogScrollEl.classList.toggle('is-open', isOpen);
+    catalogToggleEl.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    syncCatalogAccessibility();
+  }
+
+  function syncCatalogAccessibility() {
+    if (!catalogScrollEl || !itemListEl) return;
+    const isOpen = catalogScrollEl.classList.contains('is-open');
+    const isModalOpen = isMobileViewport() && isOpen;
+    const shouldHideList = isMobileViewport() && !isOpen;
+    document.documentElement.classList.toggle('catalog-modal-open', isModalOpen);
+    itemListEl.setAttribute('aria-hidden', shouldHideList ? 'true' : 'false');
+    itemListEl.querySelectorAll('.item-button').forEach(button => {
+      if (shouldHideList) {
+        button.setAttribute('tabindex', '-1');
+      } else {
+        button.removeAttribute('tabindex');
+      }
+    });
+  }
+
+  function applyWork(work, shouldUpdateHash) {
+    featureBoxEl.setAttribute('aria-label', work.title);
+    coverImageEl.src = `pic/serial-${work.coverId}.png`;
+    coverImageEl.alt = work.title;
+    detailTypeEl.setAttribute('aria-label', work.type);
+    detailTitleEl.setAttribute('aria-label', work.title);
+    typeImageEl.src = `pic/type-${work.coverId}.png`;
+    typeImageEl.alt = work.type;
+    titleImageEl.src = `pic/TITLE-${work.coverId}.png`;
+    titleImageEl.alt = work.title;
+    detailSummaryEl.textContent = work.description || '';
+    detailLinksEl.replaceChildren();
+    (work.links || []).forEach(link => {
+      const anchor = document.createElement('a');
+      anchor.className = 'detail-link';
+      anchor.href = link.url;
+      anchor.textContent = link.label;
+      anchor.target = '_blank';
+      anchor.rel = 'noopener noreferrer';
+      detailLinksEl.appendChild(anchor);
+    });
+    detailLinksEl.hidden = !(work.links && work.links.length);
+    if (catalogCurrentEl) {
+      catalogCurrentEl.textContent = work.title;
+    }
+    renderQuote(work.quote);
+
+    if (detailPanelEl) detailPanelEl.classList.remove('is-changing');
+    featureBoxEl.classList.remove('is-changing');
+
+    if (shouldUpdateHash && detailPanelEl) {
+      if (isMobileViewport()) {
+        setCatalogOpen(false);
+        window.setTimeout(() => {
+          detailPanelEl.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.setTimeout(resetPageScroll, 260);
+        }, 180);
+      } else {
+        detailPanelEl.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    if (shouldUpdateHash) {
+      history.replaceState(null, '', `#${work.id}`);
+    }
+  }
+
+  function selectWork(id, shouldUpdateHash) {
+    const work = WORKS.find(item => item.id === id) || WORKS[0];
+
+    itemListEl.querySelectorAll('.item-button').forEach(button => {
+      const isActive = button.dataset.id === work.id;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      button.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+      if (isActive && isMobileViewport() && catalogScrollEl && catalogScrollEl.classList.contains('is-open')) {
+        button.scrollIntoView({
+          behavior: shouldUpdateHash ? 'smooth' : 'auto',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    });
+
+    if (shouldUpdateHash) {
+      if (detailPanelEl) detailPanelEl.classList.add('is-changing');
+      featureBoxEl.classList.add('is-changing');
+      window.setTimeout(() => applyWork(work, true), 230);
+    } else {
+      applyWork(work, false);
+    }
+  }
+
+  if (catalogToggleEl && catalogScrollEl) {
+    catalogToggleEl.addEventListener('click', () => {
+      setCatalogOpen(!catalogScrollEl.classList.contains('is-open'));
+    });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && catalogScrollEl && catalogScrollEl.classList.contains('is-open')) {
+      setCatalogOpen(false);
+    }
+  });
+
+  document.addEventListener('pointerdown', e => {
+    if (!isMobileViewport() || !catalogScrollEl || !catalogScrollEl.classList.contains('is-open')) return;
+    if (e.target.closest('.catalog-toggle') || e.target.closest('.item-list')) return;
+    setCatalogOpen(false);
+  });
+
+  CATEGORY_ORDER.forEach(category => {
+    const works = WORKS.filter(work => work.category === category);
+    if (!works.length) return;
+
+    const group = document.createElement('section');
+    const heading = document.createElement('h3');
+    const items = document.createElement('div');
+    group.className = 'category-group';
+    heading.className = 'category-title';
+    heading.textContent = category;
+    items.className = 'category-items';
+    group.append(heading, items);
+    itemListEl.appendChild(group);
+
+    works.forEach(work => {
+      const button = document.createElement('button');
+      const title = document.createElement('strong');
+      const teaser = document.createElement('span');
+      button.type = 'button';
+      button.className = 'item-button';
+      button.dataset.id = work.id;
+      button.setAttribute('aria-controls', 'work-detail');
+      button.setAttribute('aria-expanded', 'false');
+      title.textContent = work.title;
+      teaser.textContent = work.teaser;
+      button.append(title, teaser);
+      button.addEventListener('click', () => selectWork(work.id, true));
+      items.appendChild(button);
+    });
+  });
+
+  quoteFieldEl.addEventListener('pointerenter', cacheRects);
+  quoteFieldEl.addEventListener('pointermove', e => paintFromPoint(e.clientX, e.clientY));
+  quoteFieldEl.addEventListener('pointerleave', clearPaint);
+  quoteFieldEl.addEventListener('touchstart', e => {
+    const t = e.touches[0]; if (!t) return;
+    cacheRects(); paintFromPoint(t.clientX, t.clientY);
+  }, { passive: true });
+  quoteFieldEl.addEventListener('touchmove', e => {
+    const t = e.touches[0]; if (!t) return;
+    paintFromPoint(t.clientX, t.clientY);
+  }, { passive: true });
+  quoteFieldEl.addEventListener('touchend', clearPaint, { passive: true });
+
+  function paintTouchEvent(e) {
+    if (!isMobileViewport()) return;
+    const t = e.touches[0]; if (!t) return;
+    cacheRects();
+    paintFromPoint(t.clientX, t.clientY);
+  }
+
+  function installSoftScroll(selector) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    document.querySelectorAll(selector).forEach(scroller => {
+      let target = scroller.scrollTop;
+      let current = scroller.scrollTop;
+      let rafId = 0;
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function getDelta(e) {
+        if (e.deltaMode === 1) return e.deltaY * 18;
+        if (e.deltaMode === 2) return e.deltaY * scroller.clientHeight;
+        return e.deltaY;
+      }
+
+      function step() {
+        current += (target - current) * 0.12;
+
+        if (Math.abs(target - current) < 0.5) {
+          current = target;
+          rafId = 0;
+        } else {
+          rafId = window.requestAnimationFrame(step);
+        }
+
+        scroller.scrollTop = current;
+      }
+
+      scroller.addEventListener('wheel', e => {
+        const max = scroller.scrollHeight - scroller.clientHeight;
+        if (max <= 0) return;
+
+        const delta = getDelta(e);
+        const next = clamp(target + delta, 0, max);
+        const blocked = (target === 0 && delta < 0) || (target === max && delta > 0);
+        if (blocked) return;
+
+        e.preventDefault();
+        target = next;
+        if (!rafId) {
+          current = scroller.scrollTop;
+          rafId = window.requestAnimationFrame(step);
+        }
+      }, { passive: false });
+
+      scroller.addEventListener('scroll', () => {
+        if (!rafId) target = scroller.scrollTop;
+      }, { passive: true });
+    });
+  }
+
+  document.addEventListener('pointerdown', e => {
+    if (!isMobileViewport() && !isPointInQuoteField(e.clientX, e.clientY)) return;
+    cacheRects();
+    paintFromPoint(e.clientX, e.clientY);
+  }, { passive: true });
+  document.addEventListener('pointermove', e => {
+    if (!isMobileViewport() && !isPointInQuoteField(e.clientX, e.clientY)) {
+      clearPaint();
+      return;
+    }
+    paintFromPoint(e.clientX, e.clientY);
+  }, { passive: true });
+  document.addEventListener('pointerup', () => {
+    clearPaint();
+  }, { passive: true });
+  document.addEventListener('touchstart', paintTouchEvent, { passive: true });
+  document.addEventListener('touchmove', paintTouchEvent, { passive: true });
+  document.addEventListener('touchend', () => {
+    if (isMobileViewport()) clearPaint();
+  }, { passive: true });
+
+  if (returnLinkEl) {
+    returnLinkEl.addEventListener('click', e => {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      sessionStorage.setItem('returnToMenu', '1');
+      document.documentElement.classList.add('leaving-to-index');
+      window.setTimeout(() => {
+        window.location.href = returnLinkEl.href;
+      }, 460);
+    });
+  }
+
+  window.addEventListener('hashchange', () => {
+    selectWork(window.location.hash.replace('#', ''), false);
+  });
+  window.addEventListener('resize', () => {
+    rebuildActiveQuote();
+    cacheRects();
+    syncCatalogAccessibility();
+  });
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(cacheRects).observe(quoteFieldEl);
+  }
+
+  installSoftScroll('.item-list, .detail-panel');
+  syncCatalogAccessibility();
+  selectWork(window.location.hash.replace('#', ''), false);
+  cacheRects();
+})();
+</script>
+</body>
+</html>
