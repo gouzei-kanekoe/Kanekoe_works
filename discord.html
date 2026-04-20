@@ -279,9 +279,21 @@
     .return-link:active { color: var(--accent); }
 
     @media (max-width: 768px) {
-      .about-stage {
-        min-height: 100svh;
+      html,
+      body {
+        height: var(--mobile-vh);
         min-height: var(--mobile-vh);
+        overflow: hidden;
+      }
+
+      .about-stage {
+        height: var(--mobile-vh);
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        overflow: hidden;
+        padding: 0 var(--mobile-shell-right) var(--mobile-shell-bottom) var(--mobile-shell-left);
       }
 
       .quote-field {
