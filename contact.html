@@ -367,24 +367,21 @@
     return best;
   }
 
-  function buildQuote() {
-    const chars = QUOTE.split('');
-    const { cols, rows, cellSize } = getQuoteLayout(chars.length);
+        height: auto;
+        min-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
 
-    quoteGridEl.replaceChildren();
-    quoteGridEl.style.setProperty('--quote-cell', `${cellSize}px`);
-    quoteGridEl.style.gridTemplateColumns = `repeat(${cols}, var(--quote-cell))`;
-    quoteGridEl.style.gridTemplateRows = `repeat(${rows}, var(--quote-cell))`;
-
-    charEls = [];
-    chars.forEach((ch, i) => {
-      const colIndex = Math.floor(i / rows);
-      const rowIndex = i % rows;
-      const span = document.createElement('span');
-      span.className = 'char';
-      span.textContent = ch;
-      span.style.gridColumn = (cols - colIndex);
-      span.style.gridRow = (rowIndex + 1);
+        height: auto;
+        min-height: 100svh;
+        min-height: var(--mobile-vh);
+        padding-bottom: var(--mobile-shell-bottom);
+        display: block;
+        min-height: var(--mobile-scene-min-height, 0);
+        margin: var(--mobile-shell-top) auto var(--mobile-shell-bottom);
+        width: 100%;
+        height: auto;
+        margin-top: 0;
       quoteGridEl.appendChild(span);
       charEls.push(span);
     });
@@ -447,3 +444,9 @@
 </script>
 </body>
 </html>
+        position: fixed;
+        top: var(--mobile-shell-top);
+        left: var(--mobile-shell-left);
+        z-index: 20;
+        left: var(--mobile-shell-left);
+    quoteFieldEl.style.setProperty('--mobile-quote-top', `${Math.round(top)}px`);
