@@ -424,7 +424,7 @@
         left: var(--mobile-quote-left, 0);
         top: var(--mobile-quote-top, 0);
         transform: none;
-        width: 100%;
+        width: var(--mobile-quote-size, 100%);
         height: auto;
         aspect-ratio: 1 / 1;
         padding: 0;
@@ -672,6 +672,7 @@
     if (!isMobileViewport()) {
       quoteFieldEl.style.removeProperty('--mobile-quote-top');
       quoteFieldEl.style.removeProperty('--mobile-quote-left');
+      quoteFieldEl.style.removeProperty('--mobile-quote-size');
       contactSceneEl.style.removeProperty('--mobile-scene-min-height');
       return;
     }
@@ -687,8 +688,13 @@
       top + quoteRect.width
     ));
 
-    quoteFieldEl.style.setProperty('--mobile-quote-top', `${Math.round(top)}px`);
+    const clampedTop = Math.max(0, Math.min(top, Math.max(0, sceneRect.height - quoteRect.width)));
+    const maxQuoteSize = Math.max(0, sceneRect.height - clampedTop);
+    const quoteSize = Math.max(0, Math.min(sceneRect.width - left, maxQuoteSize));
+
+    quoteFieldEl.style.setProperty('--mobile-quote-top', `${Math.round(clampedTop)}px`);
     quoteFieldEl.style.setProperty('--mobile-quote-left', `${Math.round(left)}px`);
+    quoteFieldEl.style.setProperty('--mobile-quote-size', `${Math.round(quoteSize)}px`);
     contactSceneEl.style.setProperty('--mobile-scene-min-height', `${sceneMinHeight}px`);
   }
 
