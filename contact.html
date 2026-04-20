@@ -34,13 +34,13 @@
     }
   </script>
   <style>
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
   </style>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -391,26 +391,29 @@
     @media (max-width: 768px) {
       html,
       body {
-        height: auto;
-        min-height: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
+        height: var(--mobile-vh);
+        min-height: var(--mobile-vh);
+        overflow: hidden;
       }
 
       .about-stage {
-        height: auto;
-        min-height: 100svh;
-        min-height: var(--mobile-vh);
+        height: var(--mobile-vh);
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
         overflow: hidden;
-        padding-bottom: var(--mobile-shell-bottom);
+        padding: var(--mobile-shell-top) var(--mobile-shell-right) var(--mobile-shell-bottom) var(--mobile-shell-left);
       }
 
       .contact-scene {
         position: relative;
-        display: block;
+        display: flex;
+        flex-direction: column;
         width: min(82vw, 460px);
-        min-height: var(--mobile-scene-min-height, 0);
-        margin: var(--mobile-shell-top) auto var(--mobile-shell-bottom);
+        flex: 1;
+        min-height: 0;
+        margin: 0 auto;
         overflow: hidden;
         overflow: clip;
         isolation: isolate;
@@ -421,7 +424,7 @@
         left: var(--mobile-quote-left, 0);
         top: var(--mobile-quote-top, 0);
         transform: none;
-        width: 100%;
+        width: var(--mobile-quote-size, 100%);
         height: auto;
         aspect-ratio: 1 / 1;
         padding: 0;
@@ -448,7 +451,7 @@
         transform: none;
         margin: 0;
         width: 100%;
-        height: auto;
+        height: 100%;
         min-height: 0;
         grid-template-rows: auto auto auto;
         row-gap: clamp(16px, 3.4dvh, 30px);
@@ -466,7 +469,7 @@
         grid-row: 2;
         position: relative;
         z-index: 1;
-        margin-top: 0;
+        margin-top: clamp(-12px, -1.6dvh, -6px);
         width: min(74vw, 360px);
       }
 
@@ -530,10 +533,10 @@
       }
 
       .return-link {
-        position: fixed;
-        top: var(--mobile-shell-top);
-        left: var(--mobile-shell-left);
-        z-index: 20;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
         margin-bottom: 0;
         justify-self: auto;
         align-self: auto;
@@ -552,7 +555,7 @@
       }
 
       .return-link {
-        left: var(--mobile-shell-left);
+        left: 0;
       }
 
       .quote-field {
@@ -669,6 +672,7 @@
     if (!isMobileViewport()) {
       quoteFieldEl.style.removeProperty('--mobile-quote-top');
       quoteFieldEl.style.removeProperty('--mobile-quote-left');
+      quoteFieldEl.style.removeProperty('--mobile-quote-size');
       contactSceneEl.style.removeProperty('--mobile-scene-min-height');
       return;
     }
@@ -684,8 +688,13 @@
       top + quoteRect.width
     ));
 
-    quoteFieldEl.style.setProperty('--mobile-quote-top', `${Math.round(top)}px`);
+    const clampedTop = Math.max(0, Math.min(top, Math.max(0, sceneRect.height - quoteRect.width)));
+    const maxQuoteSize = Math.max(0, sceneRect.height - clampedTop);
+    const quoteSize = Math.max(0, Math.min(sceneRect.width - left, maxQuoteSize));
+
+    quoteFieldEl.style.setProperty('--mobile-quote-top', `${Math.round(clampedTop)}px`);
     quoteFieldEl.style.setProperty('--mobile-quote-left', `${Math.round(left)}px`);
+    quoteFieldEl.style.setProperty('--mobile-quote-size', `${Math.round(quoteSize)}px`);
     contactSceneEl.style.setProperty('--mobile-scene-min-height', `${sceneMinHeight}px`);
   }
 
