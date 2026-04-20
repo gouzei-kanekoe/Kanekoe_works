@@ -34,13 +34,13 @@
     }
   </script>
   <style>
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
   </style>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -306,9 +306,20 @@
 
     /* ── 手機版 ── */
     @media (max-width: 768px) {
-      .stage {
-        min-height: 100svh;
+      html,
+      body {
+        height: var(--mobile-vh);
         min-height: var(--mobile-vh);
+        overflow: hidden;
+      }
+
+      .stage {
+        height: var(--mobile-vh);
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        overflow: hidden;
         padding: var(--mobile-shell-top) var(--mobile-shell-right) var(--mobile-shell-bottom) var(--mobile-shell-left);
       }
 
