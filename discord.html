@@ -34,13 +34,15 @@
     }
   </script>
   <style>
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
-    @font-face { font-family: 'Source Han Serif TC'; src: url('fonts/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
   </style>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -161,18 +163,30 @@
       width: clamp(360px, 34vw, 540px);
       height: calc(100dvh - clamp(96px, 15vh, 150px));
       display: grid;
-      grid-template-rows: auto auto minmax(140px, 27vh) 1fr auto;
+      grid-template-rows: auto auto minmax(140px, 27vh) 1fr;
       justify-items: stretch;
       align-items: start;
     }
 
-    .page-title {
-      justify-self: end;
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.2em;
+      width: 100%;
+    }
+
+    .page-title,
+    .return-link {
       color: var(--menu-base);
       font-size: clamp(13px, 1.1vw, 18px);
       font-weight: 600;
       letter-spacing: 0.6em;
       line-height: 1.2;
+    }
+
+    .page-title {
+      margin: 0;
       white-space: nowrap;
     }
 
@@ -260,13 +274,7 @@
     }
 
     .return-link {
-      justify-self: end;
-      align-self: end;
-      margin-bottom: clamp(24px, 4vh, 44px);
-      color: var(--menu-base);
-      font-size: clamp(13px, 1.1vw, 18px);
-      font-weight: 600;
-      letter-spacing: 0.6em;
+      margin: 0;
       text-decoration: none;
       transition: color 0.32s ease;
       -webkit-tap-highlight-color: transparent;
@@ -279,9 +287,21 @@
     .return-link:active { color: var(--accent); }
 
     @media (max-width: 768px) {
-      .about-stage {
-        min-height: 100svh;
+      html,
+      body {
+        height: var(--mobile-vh);
         min-height: var(--mobile-vh);
+        overflow: hidden;
+      }
+
+      .about-stage {
+        height: var(--mobile-vh);
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        overflow: hidden;
+        padding: 0 var(--mobile-shell-right) var(--mobile-shell-bottom) var(--mobile-shell-left);
       }
 
       .quote-field {
@@ -312,7 +332,7 @@
       }
 
       .page-title {
-        justify-self: end;
+        justify-self: auto;
         font-size: clamp(13px, 3.6vw, 16px);
         letter-spacing: 0.45em;
       }
@@ -347,12 +367,6 @@
       }
 
       .return-link {
-        position: absolute;
-        top: 0;
-        left: 0;
-        margin-bottom: 0;
-        justify-self: auto;
-        align-self: auto;
         font-size: clamp(13px, 3.6vw, 16px);
         letter-spacing: 0.45em;
       }
@@ -363,10 +377,6 @@
         width: 78vw;
         height: calc(var(--mobile-vh) - var(--mobile-shell-top) - clamp(292px, 39dvh, 360px));
         row-gap: clamp(18px, 4dvh, 34px);
-      }
-
-      .return-link {
-        left: 0;
       }
 
       .quote-field {
@@ -388,7 +398,10 @@
   </section>
 
   <section class="about-content" aria-labelledby="about-title">
-    <h1 id="about-title" class="page-title">見字寫文</h1>
+    <header class="page-header">
+      <a class="return-link" href="index.html">返回目錄</a>
+      <h1 id="about-title" class="page-title">見字寫文</h1>
+    </header>
 
     <div class="banner-wrap">
       <a class="banner-link" href="https://discord.gg/tg7Uga64JK" target="_blank" rel="noopener noreferrer" aria-label="加入見字寫文 Discord 伺服器">
@@ -401,7 +414,6 @@
       <p>歡迎各位點擊 Banner，參加伺服器。</p>
     </div>
 
-    <a class="return-link" href="index.html">返回目錄</a>
   </section>
 </main>
 
