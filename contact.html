@@ -131,10 +131,10 @@
 
     .quote-field {
       position: absolute;
-      left: clamp(44px, 6vw, 104px);
-      top: 12vh;
-      width: min(46vw, 760px);
-      height: 76vh;
+      left: clamp(-420px, -28vw, -180px);
+      top: clamp(36px, 7vh, 94px);
+      width: min(46vw, 720px);
+      height: min(72vh, 740px);
       padding: clamp(6px, 1vw, 18px);
       z-index: 0;
       touch-action: none;
@@ -167,24 +167,46 @@
       z-index: 1;
       width: clamp(360px, 34vw, 540px);
       height: calc(100dvh - clamp(96px, 15vh, 150px));
-      display: grid;
-      grid-template-rows: auto auto auto minmax(44px, 1fr);
+      display: flex;
+      flex-direction: column;
       justify-items: stretch;
       align-items: start;
     }
 
-    .page-title {
-      justify-self: end;
+    .content-body {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .topbar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.2em;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .page-title,
+    .return-link {
       color: var(--menu-base);
       font-size: clamp(13px, 1.1vw, 18px);
       font-weight: 600;
       letter-spacing: 0.6em;
       line-height: 1.2;
       white-space: nowrap;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .page-title {
+      text-align: right;
     }
 
     .logo-wrap {
-      justify-self: center;
       margin-top: clamp(34px, 5.6vh, 64px);
       width: min(100%, clamp(330px, 27vw, 500px));
       max-height: clamp(240px, 40dvh, 500px);
@@ -314,13 +336,6 @@
     }
 
     .return-link {
-      justify-self: end;
-      align-self: end;
-      margin-bottom: clamp(24px, 4vh, 44px);
-      color: var(--menu-base);
-      font-size: clamp(13px, 1.1vw, 18px);
-      font-weight: 600;
-      letter-spacing: 0.6em;
       text-decoration: none;
       transition: color 0.32s ease;
       -webkit-tap-highlight-color: transparent;
@@ -360,9 +375,6 @@
         line-height: 1.44;
       }
 
-      .return-link {
-        margin-bottom: clamp(12px, 2vh, 24px);
-      }
     }
 
     @media (min-width: 769px) and (max-height: 660px) {
@@ -397,8 +409,7 @@
       }
 
       .about-stage {
-        height: var(--mobile-vh);
-        min-height: 0;
+        min-height: var(--mobile-vh);
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
@@ -417,18 +428,6 @@
         overflow: hidden;
         overflow: clip;
         isolation: isolate;
-      }
-
-      .quote-field {
-        position: absolute;
-        left: var(--mobile-quote-left, 0);
-        top: var(--mobile-quote-top, 0);
-        transform: none;
-        width: var(--mobile-quote-size, 100%);
-        height: auto;
-        aspect-ratio: 1 / 1;
-        padding: 0;
-        z-index: 0;
       }
 
       .quote-grid .char {
@@ -453,23 +452,43 @@
         width: 100%;
         height: 100%;
         min-height: 0;
-        grid-template-rows: auto auto auto;
-        row-gap: clamp(16px, 3.4dvh, 30px);
-        overflow: hidden;
-        overflow: clip;
       }
 
-      .page-title {
-        justify-self: end;
+      .topbar {
+        flex: 0 0 auto;
+      }
+
+      .page-title,
+      .return-link {
         font-size: clamp(13px, 3.6vw, 16px);
         letter-spacing: 0.45em;
       }
 
+      .content-body {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .quote-field {
+        position: absolute;
+        left: 0;
+        top: clamp(8px, 2.2vw, 14px);
+        width: min(64vw, 300px);
+        aspect-ratio: 1 / 1;
+        height: auto;
+        padding: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
       .logo-wrap {
-        grid-row: 2;
         position: relative;
         z-index: 1;
-        margin-top: clamp(-12px, -1.6dvh, -6px);
+        margin-top: clamp(18px, 5.2vw, 28px);
         width: min(74vw, 360px);
       }
 
@@ -484,7 +503,6 @@
       }
 
       .bio-scroll.contact-info {
-        grid-row: 3;
         position: relative;
         z-index: 1;
         max-width: 100%;
@@ -532,17 +550,6 @@
         white-space: normal;
       }
 
-      .return-link {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 2;
-        margin-bottom: 0;
-        justify-self: auto;
-        align-self: auto;
-        font-size: clamp(13px, 3.6vw, 16px);
-        letter-spacing: 0.45em;
-      }
     }
 
     @media (max-width: 380px) {
@@ -551,15 +558,11 @@
       }
 
       .about-content {
-        row-gap: clamp(14px, 3dvh, 26px);
-      }
-
-      .return-link {
-        left: 0;
+        gap: 0;
       }
 
       .quote-field {
-        width: 100%;
+        width: min(66vw, 260px);
       }
 
       .bio-scroll {
@@ -571,39 +574,42 @@
 <body>
 <main class="about-stage">
   <div id="contact-scene" class="contact-scene">
-  <section id="quote-field" class="quote-field" aria-label="主視覺引言">
-    <div id="quote-grid" class="quote-grid"></div>
-  </section>
-
   <section class="about-content" aria-labelledby="about-title">
-    <h1 id="about-title" class="page-title">聯絡方式</h1>
+    <header class="topbar">
+      <a class="return-link" href="index.html">返回目錄</a>
+      <h1 id="about-title" class="page-title">聯絡方式</h1>
+    </header>
 
-    <div class="logo-wrap">
-      <img class="author-logo" src="pic/ILLUST.png" alt="鐘聲">
-    </div>
-
-    <div class="bio-scroll contact-info" tabindex="0">
-      <section aria-label="工作聯絡">
-        <h2 class="contact-heading">工作聯絡：</h2>
-        <dl class="contact-list">
-          <dt>Email:</dt>
-          <dd><a href="mailto:gouzeii@icloud.com">gouzeii@icloud.com</a></dd>
-          <dt>WhatsApp:</dt>
-          <dd><a href="https://wa.me/85246371344" target="_blank" rel="noopener noreferrer">點擊展開對話</a></dd>
-          <dt>電子名片:</dt>
-          <dd><a href="https://linkgoods.com/gouzeik" target="_blank" rel="noopener noreferrer">點擊打開</a></dd>
-        </dl>
+    <div class="content-body">
+      <section id="quote-field" class="quote-field" aria-label="主視覺引言">
+        <div id="quote-grid" class="quote-grid"></div>
       </section>
 
-      <section class="notice-block" aria-label="特別注意">
-        <h2 class="contact-heading">特別注意：</h2>
-        <p>⛔️嚴禁無斷轉載所有圖文⛔️</p>
-        <p>⛔️嚴禁擅自使用本人發表的圖文交給 AI⛔️</p>
-        <p>（包括但不限於參考生成，評論，重製等用途）</p>
-      </section>
-    </div>
+      <div class="logo-wrap">
+        <img class="author-logo" src="pic/ILLUST.png" alt="鐘聲">
+      </div>
 
-    <a class="return-link" href="index.html">返回目錄</a>
+      <div class="bio-scroll contact-info" tabindex="0">
+        <section aria-label="工作聯絡">
+          <h2 class="contact-heading">工作聯絡：</h2>
+          <dl class="contact-list">
+            <dt>Email:</dt>
+            <dd><a href="mailto:gouzeii@icloud.com">gouzeii@icloud.com</a></dd>
+            <dt>WhatsApp:</dt>
+            <dd><a href="https://wa.me/85246371344" target="_blank" rel="noopener noreferrer">點擊展開對話</a></dd>
+            <dt>電子名片:</dt>
+            <dd><a href="https://linkgoods.com/gouzeik" target="_blank" rel="noopener noreferrer">點擊打開</a></dd>
+          </dl>
+        </section>
+
+        <section class="notice-block" aria-label="特別注意">
+          <h2 class="contact-heading">特別注意：</h2>
+          <p>⛔️嚴禁無斷轉載所有圖文⛔️</p>
+          <p>⛔️嚴禁擅自使用本人發表的圖文交給 AI⛔️</p>
+          <p>（包括但不限於參考生成，評論，重製等用途）</p>
+        </section>
+      </div>
+    </div>
   </section>
   </div>
 </main>
@@ -634,11 +640,7 @@
 
   const quoteFieldEl = document.getElementById('quote-field');
   const quoteGridEl = document.getElementById('quote-grid');
-  const contactSceneEl = document.getElementById('contact-scene');
   const returnLinkEl = document.querySelector('.return-link');
-  const aboutContentEl = document.querySelector('.about-content');
-  const contactInfoEl = document.querySelector('.bio-scroll.contact-info');
-  const logoWrapEl = document.querySelector('.logo-wrap');
 
   let charEls = [];
   let cachedRects = [];
@@ -666,41 +668,7 @@
     return best;
   }
 
-  function syncMobileQuotePosition() {
-    if (!contactSceneEl || !contactInfoEl) return;
-
-    if (!isMobileViewport()) {
-      quoteFieldEl.style.removeProperty('--mobile-quote-top');
-      quoteFieldEl.style.removeProperty('--mobile-quote-left');
-      quoteFieldEl.style.removeProperty('--mobile-quote-size');
-      contactSceneEl.style.removeProperty('--mobile-scene-min-height');
-      return;
-    }
-
-    const sceneRect = contactSceneEl.getBoundingClientRect();
-    const contactRect = contactInfoEl.getBoundingClientRect();
-    const top = contactRect.top - sceneRect.top - 12;
-    const left = contactRect.left - sceneRect.left;
-    const quoteRect = quoteFieldEl.getBoundingClientRect();
-    const contentRect = aboutContentEl ? aboutContentEl.getBoundingClientRect() : contactRect;
-    const sceneMinHeight = Math.ceil(Math.max(
-      contentRect.bottom - sceneRect.top,
-      top + quoteRect.width
-    ));
-
-    const clampedTop = Math.max(0, Math.min(top, Math.max(0, sceneRect.height - quoteRect.width)));
-    const maxQuoteSize = Math.max(0, sceneRect.height - clampedTop);
-    const quoteSize = Math.max(0, Math.min(sceneRect.width - left, maxQuoteSize));
-
-    quoteFieldEl.style.setProperty('--mobile-quote-top', `${Math.round(clampedTop)}px`);
-    quoteFieldEl.style.setProperty('--mobile-quote-left', `${Math.round(left)}px`);
-    quoteFieldEl.style.setProperty('--mobile-quote-size', `${Math.round(quoteSize)}px`);
-    contactSceneEl.style.setProperty('--mobile-scene-min-height', `${sceneMinHeight}px`);
-  }
-
   function buildQuote() {
-    syncMobileQuotePosition();
-
     const chars = QUOTE.split('');
     const { cols, rows, cellSize } = getQuoteLayout(chars.length);
 
@@ -875,10 +843,9 @@
   }
   if ('ResizeObserver' in window) {
     const quoteResizeObserver = new ResizeObserver(buildQuote);
-    if (contactSceneEl) quoteResizeObserver.observe(contactSceneEl);
     quoteResizeObserver.observe(quoteFieldEl);
-    if (contactInfoEl) quoteResizeObserver.observe(contactInfoEl);
-    if (logoWrapEl) quoteResizeObserver.observe(logoWrapEl);
+    const contentBodyEl = document.querySelector('.content-body');
+    if (contentBodyEl) quoteResizeObserver.observe(contentBodyEl);
   }
   installSoftScroll('.bio-scroll');
   cacheRects();
