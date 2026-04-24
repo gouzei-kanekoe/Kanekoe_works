@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>鐘聲是誰｜鐘聲</title>
+  <title>鐘聲是誰 || 個人主頁</title>
   <script>
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
@@ -221,6 +221,22 @@
 
     .bio-scroll::-webkit-scrollbar { display: none; }
 
+    @media (min-width: 769px) {
+      .about-content {
+        grid-template-rows: auto auto auto 1fr auto;
+      }
+
+      .bio-scroll {
+        width: fit-content;
+        max-width: 100%;
+        height: auto;
+        overflow: visible;
+        overscroll-behavior: auto;
+        padding: 0;
+        background: none;
+      }
+    }
+
     .bio-scroll p {
       margin-bottom: 1.35em;
     }
@@ -410,6 +426,29 @@
         height: 100%;
       }
     }
+    .site-credit {
+      position: fixed;
+      left: 50%;
+      bottom: max(env(safe-area-inset-bottom), 4px);
+      transform: translateX(-50%);
+      z-index: 50;
+      font-size: 8px;
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+      color: rgba(0, 0, 0, 0.22);
+      text-align: center;
+      white-space: nowrap;
+      pointer-events: auto;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
+    }
+
+    .site-credit-char {
+      display: inline-block;
+      color: rgba(0, 0, 0, 0.22);
+      transition: color 0.2s ease;
+    }
   </style>
 </head>
 <body>
@@ -458,6 +497,8 @@
   const QUOTE = '我提筆執字，只為讀者帶來愛的多面向，還有共鳴。';
   const BASE_RGB = [247, 247, 247];
   const HOVER_RGB = [192, 198, 204];
+  const CREDIT_BASE_RGB = [156, 156, 156];
+  const CREDIT_HOVER_RGB = [92, 92, 92];
 
   const quoteFieldEl = document.getElementById('quote-field');
   const quoteGridEl = document.getElementById('quote-grid');
@@ -483,10 +524,30 @@
     charEls.push(span);
   });
 
+  let creditEl = null;
+  let creditChars = [];
+  let creditCharSet = new Set();
+
+  function initCredit() {
+    creditEl = document.getElementById('site-credit');
+    if (!creditEl || creditChars.length) return;
+
+    const creditText = creditEl.textContent || '';
+    creditEl.textContent = '';
+    Array.from(creditText).forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'site-credit-char';
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      creditEl.appendChild(span);
+      creditChars.push(span);
+    });
+    creditCharSet = new Set(creditChars);
+  }
+
   let cachedRects = [];
 
   function cacheRects() {
-    cachedRects = charEls.map(el => ({
+    cachedRects = charEls.concat(creditChars).map(el => ({
       el,
       rect: el.getBoundingClientRect()
     }));
@@ -494,6 +555,7 @@
 
   function clearPaint() {
     charEls.forEach(el => { el.style.color = `rgb(${BASE_RGB.join(',')})`; });
+    creditChars.forEach(el => { el.style.color = `rgb(${CREDIT_BASE_RGB.join(',')})`; });
   }
 
   function paintFromPoint(x, y) {
@@ -505,9 +567,11 @@
       const range = Math.max(rect.width, rect.height) * 2.4;
       const t = Math.max(0, 1 - dist / range);
       const smooth = t * t * (3 - 2 * t);
-      const r = Math.round(BASE_RGB[0] + smooth * (HOVER_RGB[0] - BASE_RGB[0]));
-      const g = Math.round(BASE_RGB[1] + smooth * (HOVER_RGB[1] - BASE_RGB[1]));
-      const b = Math.round(BASE_RGB[2] + smooth * (HOVER_RGB[2] - BASE_RGB[2]));
+      const base = creditCharSet.has(el) ? CREDIT_BASE_RGB : BASE_RGB;
+      const hover = creditCharSet.has(el) ? CREDIT_HOVER_RGB : HOVER_RGB;
+      const r = Math.round(base[0] + smooth * (hover[0] - base[0]));
+      const g = Math.round(base[1] + smooth * (hover[1] - base[1]));
+      const b = Math.round(base[2] + smooth * (hover[2] - base[2]));
       el.style.color = `rgb(${r},${g},${b})`;
     });
   }
@@ -524,6 +588,26 @@
     paintFromPoint(t.clientX, t.clientY);
   }, { passive: true });
   quoteFieldEl.addEventListener('touchend', clearPaint, { passive: true });
+  document.addEventListener('DOMContentLoaded', () => {
+    initCredit();
+    if (!creditEl) return;
+
+    creditEl.addEventListener('pointerenter', cacheRects);
+    creditEl.addEventListener('pointermove', e => paintFromPoint(e.clientX, e.clientY));
+    creditEl.addEventListener('pointerleave', clearPaint);
+    creditEl.addEventListener('touchstart', e => {
+      const t = e.touches[0]; if (!t) return;
+      cacheRects();
+      paintFromPoint(t.clientX, t.clientY);
+    }, { passive: true });
+    creditEl.addEventListener('touchmove', e => {
+      const t = e.touches[0]; if (!t) return;
+      paintFromPoint(t.clientX, t.clientY);
+    }, { passive: true });
+    creditEl.addEventListener('touchend', clearPaint, { passive: true });
+    clearPaint();
+    cacheRects();
+  });
 
   function isMobileViewport() {
     return window.innerWidth <= 768;
@@ -628,5 +712,6 @@
   cacheRects();
 })();
 </script>
+<p id="site-credit" class="site-credit">版權歸鐘聲(かねこえ)所有, 2026</p>
 </body>
 </html>
