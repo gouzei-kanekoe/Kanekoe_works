@@ -198,11 +198,12 @@
 
     .page-title {
       justify-self: end;
-      color: var(--menu-base);
-      font-size: clamp(13px, 1.1vw, 18px);
-      font-weight: 600;
-      letter-spacing: 0.6em;
+      color: var(--accent);
+      font-size: clamp(16px, 1.28vw, 22px);
+      font-weight: 700;
+      letter-spacing: 0.5em;
       line-height: 1.2;
+      text-align: right;
       white-space: nowrap;
     }
 
@@ -337,20 +338,27 @@
     }
 
     .return-link {
-      justify-self: end;
-      align-self: end;
-      margin-bottom: clamp(24px, 4vh, 44px);
-      color: var(--menu-base);
+      position: fixed;
+      right: max(clamp(52px, 6.2vw, 110px), env(safe-area-inset-right));
+      bottom: max(clamp(32px, 5vh, 72px), env(safe-area-inset-bottom));
+      z-index: 20;
+      margin: 0;
+      justify-self: auto;
+      align-self: auto;
+      color: rgba(0, 0, 0, 0.22);
       font-size: clamp(13px, 1.1vw, 18px);
       font-weight: 600;
       letter-spacing: 0.6em;
+      line-height: 1.2;
+      text-align: right;
       text-decoration: none;
+      white-space: nowrap;
       transition: color 0.32s ease;
       -webkit-tap-highlight-color: transparent;
     }
 
     @media (hover: hover) and (pointer: fine) {
-      .return-link:hover { color: var(--accent); }
+      .return-link:hover { color: var(--menu-base); }
     }
 
     .return-link:active { color: var(--accent); }
@@ -384,7 +392,8 @@
       }
 
       .return-link {
-        margin-bottom: clamp(12px, 2vh, 24px);
+        bottom: max(clamp(20px, 3vh, 36px), env(safe-area-inset-bottom));
+        margin: 0;
       }
     }
 
@@ -486,9 +495,12 @@
         z-index: 20;
         margin: 0;
         justify-self: end;
-        font-size: clamp(13px, 3.6vw, 16px);
-        letter-spacing: 0.45em;
+        color: var(--accent);
+        font-size: clamp(14px, 3.9vw, 18px);
+        font-weight: 700;
+        letter-spacing: 0.4em;
         line-height: 1.2;
+        text-align: right;
         white-space: nowrap;
       }
 

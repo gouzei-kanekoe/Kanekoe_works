@@ -187,7 +187,7 @@
       right: clamp(52px, 6.2vw, 110px);
       bottom: max(clamp(72px, 10vh, 120px), env(safe-area-inset-bottom));
       z-index: 1;
-      width: clamp(420px, 44vw, 680px);
+      width: clamp(430px, 42vw, 660px);
       display: grid;
       grid-template-rows: auto auto minmax(0, 1fr) auto;
       justify-items: stretch;
@@ -196,18 +196,19 @@
 
     .page-title {
       justify-self: end;
-      color: var(--menu-base);
-      font-size: clamp(13px, 1.1vw, 18px);
-      font-weight: 600;
-      letter-spacing: 0.6em;
+      color: var(--accent);
+      font-size: clamp(16px, 1.28vw, 22px);
+      font-weight: 700;
+      letter-spacing: 0.5em;
       line-height: 1.2;
+      text-align: right;
       white-space: nowrap;
     }
 
     .feature-wrap {
       justify-self: center;
       margin-top: clamp(34px, 5.6vh, 64px);
-      width: clamp(260px, 24vw, 430px);
+      width: clamp(220px, 22vw, 340px);
       aspect-ratio: var(--cover-ratio);
     }
 
@@ -255,7 +256,7 @@
 
     .catalog-layout {
       display: grid;
-      grid-template-columns: minmax(140px, 0.80fr) minmax(0, 1.30fr);
+      grid-template-columns: minmax(148px, 0.88fr) minmax(0, 1.36fr);
       gap: clamp(20px, 3vw, 42px);
       align-items: stretch;
       height: 100%;
@@ -422,22 +423,23 @@
 
     .return-link {
       position: fixed;
-      top: auto;
-      left: auto;
-      right: max(clamp(36px, 5vw, 84px), env(safe-area-inset-right));
+      right: max(clamp(52px, 6.2vw, 110px), env(safe-area-inset-right));
       bottom: max(clamp(32px, 5vh, 72px), env(safe-area-inset-bottom));
       z-index: 20;
-      color: var(--menu-base);
+      color: rgba(0, 0, 0, 0.22);
       font-size: clamp(13px, 1.1vw, 18px);
+      font-weight: 600;
       letter-spacing: 0.6em;
       line-height: 1.2;
+      text-align: right;
       text-decoration: none;
+      white-space: nowrap;
       transition: color 0.32s ease;
       -webkit-tap-highlight-color: transparent;
     }
 
     @media (hover: hover) and (pointer: fine) {
-      .return-link:hover { color: var(--accent); }
+      .return-link:hover { color: var(--menu-base); }
     }
     .return-link:active { color: var(--accent); }
 
@@ -519,8 +521,12 @@
 
       .page-title {
         justify-self: end;
-        font-size: clamp(13px, 3.6vw, 16px);
-        letter-spacing: 0.45em;
+        color: var(--accent);
+        font-size: clamp(14px, 3.9vw, 18px);
+        font-weight: 700;
+        letter-spacing: 0.4em;
+        line-height: 1.2;
+        text-align: right;
       }
 
       .feature-wrap {
