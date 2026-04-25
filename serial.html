@@ -48,11 +48,12 @@
       transform: translateX(-50%);
       z-index: 50;
       font-size: 8px;
-      line-height: 1.2;
-      letter-spacing: 0.04em;
-      color: rgba(0, 0, 0, 0.22);
+      line-height: 1.35;
+      letter-spacing: 0.12em;
+      color: rgba(0, 0, 0, 0.20);
       text-align: center;
       white-space: nowrap;
+      padding: 0 12px;
       pointer-events: auto;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
@@ -61,7 +62,7 @@
 
     .site-credit-char {
       display: inline-block;
-      color: rgba(0, 0, 0, 0.22);
+      color: rgba(0, 0, 0, 0.20);
       transition: color 0.2s ease;
     }
   </style>
@@ -941,8 +942,8 @@
   const DEFAULT_QUOTE = '連載作品像是一排尚未熄滅的燈，點一下，就走進另一間房。';
   const BASE_RGB = [247, 247, 247];
   const HOVER_RGB = [192, 198, 204];
-  const CREDIT_BASE_RGB = [156, 156, 156];
-  const CREDIT_HOVER_RGB = [92, 92, 92];
+  const CREDIT_BASE_RGB = [204, 204, 204];
+  const CREDIT_HOVER_RGB = [156, 156, 156];
 
   const quoteFieldEl = document.getElementById('quote-field');
   const quoteGridEl = document.getElementById('quote-grid');
@@ -1388,6 +1389,7 @@
   cacheRects();
 })();
 </script>
-<p id="site-credit" class="site-credit">版權歸鐘聲(かねこえ)所有, 2026</p>
+<!-- © 2026 Kanekoe (Gouzei). All rights reserved. -->
+<p id="site-credit" class="site-credit">© 2026 Kanekoe (Gouzei). All rights reserved.</p>
 </body>
 </html>
