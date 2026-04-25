@@ -29,20 +29,8 @@
     window.addEventListener('load', resetPageScrollSoon);
     window.addEventListener('pagehide', resetPageScroll);
 
-    const shouldReturnToMenu = sessionStorage.getItem('returnToMenu') === '1';
-    const hasSeenIntroAnimation = localStorage.getItem('indexAnAnimationSeen') === 'true';
-    const forceIntroReplay = localStorage.getItem('indexAnForceReplay') === 'true';
-    const showIntroAnimation = !shouldReturnToMenu && (!hasSeenIntroAnimation || forceIntroReplay);
-    if (forceIntroReplay) {
-      localStorage.removeItem('indexAnForceReplay');
-    }
-
-    if (shouldReturnToMenu) {
-      document.documentElement.classList.add('returning-to-menu', 'intro-complete');
-    } else if (showIntroAnimation) {
-      document.documentElement.classList.add('intro-active');
-    } else {
-      document.documentElement.classList.add('intro-complete');
+    if (sessionStorage.getItem('returnToMenu') === '1') {
+      document.documentElement.classList.add('returning-to-menu');
     }
   </script>
   <style>
@@ -69,7 +57,6 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       touch-action: none;
-      transition: opacity 0.35s ease;
     }
 
     .site-credit-char {
@@ -87,10 +74,6 @@
       --ink-faint: rgba(0, 0, 0, 0.20);
       --accent: #464e66;
       --menu-base: #a5a5a5;
-      --intro-ink: #353535;
-      --intro-line: rgba(53, 53, 53, 0.22);
-      --intro-soft: rgba(53, 53, 53, 0.62);
-      --intro-font: ui-monospace, 'SFMono-Regular', 'SF Mono', 'Cascadia Mono', Consolas, 'Liberation Mono', Menlo, monospace;
       --mobile-vh: 100svh;
       --mobile-shell-top: calc(env(safe-area-inset-top) + clamp(38px, 6svh, 56px));
       --mobile-shell-right: calc(env(safe-area-inset-right) + clamp(24px, 7vw, 52px));
@@ -159,257 +142,6 @@
         opacity: 1;
         transform: translateX(0) scale(1);
       }
-    }
-
-    html.intro-active .stage {
-      opacity: 0;
-      transform: scale(0.985);
-      pointer-events: none;
-    }
-
-    html.intro-active .site-credit {
-      opacity: 0;
-    }
-
-    html.intro-unlocked .stage {
-      animation: introRevealStage 0.82s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    html.intro-unlocked .site-credit {
-      animation: introRevealCredit 0.82s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    @keyframes introRevealStage {
-      from {
-        opacity: 0;
-        transform: scale(0.985);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes introRevealCredit {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    html.intro-complete .intro-overlay {
-      display: none;
-    }
-
-    .intro-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 220;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(26px, 6vw, 72px);
-      background: rgba(255, 255, 255, 0.98);
-      transition: background 0.84s ease, opacity 0.84s ease;
-    }
-
-    .intro-shell {
-      width: min(90vw, 960px);
-      min-height: clamp(520px, 72svh, 780px);
-      border: 1px solid var(--intro-line);
-      background: rgba(255, 255, 255, 0.94);
-      color: var(--intro-ink);
-      display: flex;
-      flex-direction: column;
-      gap: clamp(18px, 3vh, 28px);
-      padding: clamp(32px, 4.2vw, 48px);
-      font-family: var(--intro-font);
-      letter-spacing: 0.08em;
-      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.055);
-      transition:
-        width 0.84s cubic-bezier(0.22, 1, 0.36, 1),
-        min-height 0.84s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.84s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.72s ease,
-        border-color 0.72s ease,
-        box-shadow 0.72s ease;
-      outline: none;
-    }
-
-    .intro-shell.is-enterable {
-      cursor: pointer;
-    }
-
-    html.intro-entering .intro-overlay {
-      background: rgba(255, 255, 255, 0);
-      pointer-events: none;
-    }
-
-    html.intro-entering .intro-shell {
-      width: min(96vw, 1380px);
-      min-height: min(90svh, 980px);
-      transform: scale(1.015);
-      opacity: 0;
-      border-color: rgba(53, 53, 53, 0);
-      box-shadow: none;
-    }
-
-    .intro-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      color: var(--intro-soft);
-      font-size: clamp(11px, 1vw, 14px);
-      letter-spacing: 0.18em;
-    }
-
-    .intro-skip {
-      background: none;
-      border: 1px solid rgba(53, 53, 53, 0.22);
-      color: var(--intro-soft);
-      font-family: inherit;
-      font-size: clamp(10px, 0.92vw, 12px);
-      letter-spacing: 0.34em;
-      padding: 6px 14px 6px 16px;
-      cursor: pointer;
-      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .intro-skip:hover,
-    .intro-skip:focus {
-      color: var(--intro-ink);
-      border-color: rgba(53, 53, 53, 0.55);
-      outline: none;
-    }
-
-    .intro-skip:active {
-      background: rgba(53, 53, 53, 0.06);
-    }
-
-    .intro-led {
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: rgba(53, 53, 53, 0.72);
-      box-shadow: 0 0 0 4px rgba(53, 53, 53, 0.08);
-      animation: introLedPulse 1.5s ease-in-out infinite;
-      flex: 0 0 auto;
-    }
-
-    @keyframes introLedPulse {
-      0%, 100% { opacity: 0.45; }
-      50%      { opacity: 1; }
-    }
-
-    .intro-status {
-      margin-left: auto;
-      white-space: nowrap;
-    }
-
-    .intro-main {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: clamp(22px, 3vh, 34px);
-      min-height: 100%;
-      flex: 1;
-    }
-
-    .intro-log,
-    .intro-loading,
-    .intro-enter {
-      white-space: pre-line;
-      font-size: clamp(12px, 1.12vw, 16px);
-      line-height: 1.8;
-    }
-
-    .intro-log {
-      min-height: 4.4em;
-      color: var(--intro-soft);
-    }
-
-    .intro-ascii {
-      margin: 0;
-      white-space: pre;
-      font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', 'Cascadia Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-      font-size: clamp(8px, 1.06vw, 14px);
-      line-height: 1.02;
-      letter-spacing: 0;
-      font-variant-ligatures: none;
-      font-feature-settings: "liga" 0, "calt" 0;
-      color: var(--intro-ink);
-      min-height: 18.4em;
-      overflow: hidden;
-    }
-
-    .intro-login {
-      border-top: 1px solid rgba(53, 53, 53, 0.12);
-      border-bottom: 1px solid rgba(53, 53, 53, 0.12);
-      padding: 22px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .intro-login-title {
-      font-size: clamp(11px, 1vw, 14px);
-      letter-spacing: 0.22em;
-      color: var(--intro-soft);
-    }
-
-    .intro-login-row {
-      display: grid;
-      grid-template-columns: 66px minmax(0, 1fr);
-      align-items: center;
-      gap: 24px;
-      min-height: 1.8em;
-      font-size: clamp(14px, 1.24vw, 18px);
-    }
-
-    .intro-label {
-      color: var(--intro-soft);
-    }
-
-    .intro-value {
-      min-width: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: clip;
-    }
-
-    .intro-loading {
-      min-height: 4.2em;
-      color: var(--intro-soft);
-    }
-
-    .intro-hint {
-      white-space: pre-line;
-      font-family: 'Source Han Serif TC', 'Noto Serif TC', 'Songti TC', 'Songti SC', 'SimSun', serif;
-      font-weight: 500;
-      font-size: clamp(12px, 1.04vw, 15px);
-      line-height: 2.1;
-      letter-spacing: 0.18em;
-      color: var(--intro-soft);
-      min-height: 4.4em;
-    }
-
-    .intro-enter {
-      opacity: 0;
-      color: var(--intro-ink);
-      letter-spacing: 0.34em;
-      align-self: flex-start;
-      text-align: left;
-      transition: opacity 0.32s ease;
-    }
-
-    .intro-enter.is-visible {
-      opacity: 1;
-      animation: introPromptBlink 1.2s steps(1, end) infinite;
-    }
-
-    @keyframes introPromptBlink {
-      0%, 100% { opacity: 0.28; }
-      50%      { opacity: 1; }
     }
 
     /* ── 中央正方形引言框 ── */
@@ -594,50 +326,6 @@
       display: block;
       margin-top: 0.4em;
     }
-    .swipe-hint-extra {
-      display: none;
-      margin-top: 1.6em;
-      color: rgba(0, 0, 0, 0.28);
-      font-size: clamp(10px, 1.2vmin, 12px);
-      letter-spacing: 0.16em;
-      font-weight: 500;
-    }
-    .swipe-hint.is-simple .swipe-hint-icon {
-      display: none;
-    }
-    .swipe-hint.is-simple .swipe-hint-extra {
-      display: block;
-    }
-
-    /* ── 彩蛋通知 ── */
-    .easter-toast {
-      position: fixed;
-      left: 50%;
-      bottom: clamp(72px, 12vh, 132px);
-      transform: translate(-50%, 12px);
-      z-index: 180;
-      padding: 14px 26px;
-      background: rgba(255, 255, 255, 0.96);
-      border: 1px solid rgba(53, 53, 53, 0.18);
-      color: var(--intro-ink);
-      font-family: 'Source Han Serif TC', 'Noto Serif TC', 'Songti TC', 'Songti SC', 'SimSun', serif;
-      font-weight: 500;
-      font-size: clamp(12px, 1vw, 14px);
-      letter-spacing: 0.32em;
-      line-height: 1.9;
-      text-align: center;
-      white-space: pre-line;
-      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.06);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.32s ease, transform 0.32s ease;
-      max-width: min(86vw, 460px);
-    }
-
-    .easter-toast.is-visible {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
 
     /* ── 手機版 ── */
     @media (max-width: 768px) {
@@ -663,33 +351,6 @@
         height: min(75vw, 75vmin);
         padding: clamp(14px, 4vmin, 24px);
       }
-      .intro-overlay {
-        padding: clamp(18px, 5vw, 28px);
-      }
-      .intro-shell {
-        width: min(92vw, 620px);
-        min-height: min(84svh, 720px);
-        padding: clamp(22px, 5.8vw, 30px);
-      }
-      html.intro-entering .intro-shell {
-        width: 96vw;
-        min-height: min(90svh, 900px);
-      }
-      .intro-main {
-        gap: clamp(16px, 2.2vh, 22px);
-      }
-      .intro-ascii {
-        font-size: clamp(5px, 1.45vw, 8px);
-        min-height: 18.2em;
-      }
-      .intro-login-row {
-        grid-template-columns: 48px minmax(0, 1fr);
-        gap: 14px;
-      }
-      .intro-enter {
-        align-self: stretch;
-        text-align: left;
-      }
       .quote-grid .char {
         font-size: clamp(20px, 7vmin, 48px);
       }
@@ -709,65 +370,6 @@
   </style>
 </head>
 <body>
-
-<div id="intro-overlay" class="intro-overlay" aria-live="polite">
-  <div
-    id="intro-shell"
-    class="intro-shell"
-    role="button"
-    tabindex="0"
-    aria-disabled="true"
-    aria-label="系統登入前導動畫，成功後可進入主頁"
-  >
-    <div class="intro-header">
-      <span class="intro-led" aria-hidden="true"></span>
-      <span id="intro-status" class="intro-status">BOOTING</span>
-      <button type="button" id="intro-skip" class="intro-skip" aria-label="略過開場動畫">SKIP &gt;</button>
-    </div>
-    <div class="intro-main">
-      <div id="intro-command" class="intro-log"></div>
-      <div id="intro-connect" class="intro-log"></div>
-      <pre id="intro-ascii" class="intro-ascii"></pre>
-      <div id="intro-login" class="intro-login" hidden>
-        <div class="intro-login-title">LOGIN</div>
-        <div class="intro-login-row">
-          <span class="intro-label">ID:</span>
-          <span id="intro-id" class="intro-value"></span>
-        </div>
-        <div class="intro-login-row">
-          <span class="intro-label">PW:</span>
-          <span id="intro-pw" class="intro-value"></span>
-        </div>
-      </div>
-      <div id="intro-loading" class="intro-loading" hidden></div>
-      <div id="intro-hint" class="intro-hint" lang="zh-Hant" hidden></div>
-      <div id="intro-enter" class="intro-enter" hidden>&gt; CLICK TO ENTER_</div>
-    </div>
-  </div>
-</div>
-
-<pre id="intro-ascii-source" hidden aria-hidden="true">
- _____                      _    _
-|_   _|__ _ __   __ _  ___ | | _| | ___   _
-  | |/ _ \ '_ \ / _` |/ _ \| |/ / |/ / | | |
-  | |  __/ | | | (_| | (_) |   <|   <| |_| |
-  |_|\___|_| |_|\__, |\___/|_|\_\_|\_\\__,_|
-                |___/
-
-    _       _           _       _     _             _   _
-   / \   __| |_ __ ___ (_)_ __ (_)___| |_ _ __ __ _| |_(_)_   _____
-  / _ \ / _` | '_ ` _ \| | '_ \| / __| __| '__/ _` | __| \ \ / / _ \
- / ___ \ (_| | | | | | | | | | | \__ \ |_| | | (_| | |_| |\ V /  __/
-/_/   \_\__,_|_| |_| |_|_|_| |_|_|___/\__|_|  \__,_|\__|_| \_/ \___|
-
- ____
-| __ ) _   _ _ __ ___  __ _ _   _
-|  _ \| | | | '__/ _ \/ _` | | | |
-| |_) | |_| | | |  __/ (_| | |_| |
-|____/ \__,_|_|  \___|\__,_|\__,_|
-</pre>
-
-<div id="easter-toast" class="easter-toast" role="status" aria-live="polite"></div>
 
 <main class="stage">
 
@@ -798,14 +400,14 @@
 
   <div id="scroll-hint" class="scroll-hint" aria-hidden="true"></div>
 
-  <div id="swipe-hint" class="swipe-hint hidden" role="complementary">
+  <div id="swipe-hint" class="swipe-hint" role="complementary">
     <div class="swipe-hint-inner">
       <svg class="swipe-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M9 3.5C9 2.672 9.672 2 10.5 2s1.5.672 1.5 1.5v7"/>
         <path d="M12 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5v1M15 9.5c0-.828.672-1.5 1.5-1.5S18 8.672 18 9.5v1"/>
         <path d="M18 10.5c0-.828.448-1.5 1-1.5s1 .672 1 1.5V14c0 3.314-2.686 6-6 6h-2a6 6 0 0 1-6-6v-1.083c0-.504.3-.945.756-1.14L8 11.5V8.5c0-.828.672-1.5 1.5-1.5S11 7.672 11 8.5"/>
       </svg>
-      <p class="swipe-hint-text">輕觸或移動滑鼠到台詞上，會有特別效果<span class="swipe-hint-note">請使用滾輪或下滑以展開目錄</span><span class="swipe-hint-extra">點擊台詞 10 次會重設開場動畫</span></p>
+      <p class="swipe-hint-text">輕觸或移動滑鼠到台詞上，會有特別效果<span class="swipe-hint-note">請使用滾輪或下滑以展開目錄</span></p>
     </div>
   </div>
 
@@ -827,59 +429,12 @@
     });
   }
 
-  function sleep(ms) {
-    return new Promise(resolve => window.setTimeout(resolve, ms));
-  }
-
-  async function typeText(el, text, delay) {
-    for (let i = 1; i <= text.length; i += 1) {
-      el.textContent = text.slice(0, i);
-      await sleep(delay);
-    }
-  }
-
-  async function typeMaskedText(el, text, delay) {
-    for (let i = 0; i < text.length; i += 1) {
-      el.textContent = `${'*'.repeat(i)}${text[i]}`;
-      await sleep(delay);
-    }
-    await sleep(180);
-    el.textContent = '*'.repeat(text.length);
-  }
-
-  async function typeMaskedDots(el, count, delay, char) {
-    const mark = char || '█';
-    for (let i = 1; i <= count; i += 1) {
-      el.textContent = mark.repeat(i);
-      await sleep(delay);
-    }
-  }
-
   lockCopyActions();
 
   const shouldReturnToMenu = sessionStorage.getItem('returnToMenu') === '1';
   if (shouldReturnToMenu) {
     sessionStorage.removeItem('returnToMenu');
   }
-
-  const INTRO_COPY = {
-    command: '> SYSTEM COMMAND: Byakuya connect — Kanekoe_works',
-    connect: '> Connecting...... Tengokku Administrative Bureau......',
-    id: '2810',
-    pwLength: 8,
-    loadingPrefix: '> Loading......',
-    welcome: '> Welcome back, ████   ████',
-    hintLines: [
-      '> HINT: 輕觸或移動滑鼠到台詞上，會有特別效果',
-      '> 請使用滾輪或下滑以展開目錄'
-    ].join('\n'),
-    enter: '> CLICK TO ENTER_'
-  };
-
-  const INTRO_ASCII = (() => {
-    const src = document.getElementById('intro-ascii-source');
-    return src ? src.textContent.replace(/^\n/, '').replace(/\n\s*$/, '') : '';
-  })();
 
   /* ===== 在這裡改主引言 ===== */
   const QUOTE = '手是應該用來擁抱別人，創造奇蹟，而不是傷害自己。';
@@ -899,205 +454,16 @@
   const titleEl      = document.getElementById('site-title');
   const hintEl       = document.getElementById('scroll-hint');
   const swipeHintEl  = document.getElementById('swipe-hint');
-  const introOverlayEl = document.getElementById('intro-overlay');
-  const introShellEl   = document.getElementById('intro-shell');
-  const introStatusEl  = document.getElementById('intro-status');
-  const introCommandEl = document.getElementById('intro-command');
-  const introConnectEl = document.getElementById('intro-connect');
-  const introAsciiEl   = document.getElementById('intro-ascii');
-  const introLoginEl   = document.getElementById('intro-login');
-  const introIdEl      = document.getElementById('intro-id');
-  const introPwEl      = document.getElementById('intro-pw');
-  const introLoadingEl = document.getElementById('intro-loading');
-  const introHintEl    = document.getElementById('intro-hint');
-  const introEnterEl   = document.getElementById('intro-enter');
-  const introSkipEl    = document.getElementById('intro-skip');
-  const easterToastEl  = document.getElementById('easter-toast');
-  let creditEl         = null;
+  let creditEl      = null;
   const detailLinks  = document.querySelectorAll('a[href="about.html"], a[href="serial.html"], a[href="misc.html"], a[href="discord.html"], a[href="contact.html"], a[href="CONTACT.HTML"]');
-  const introWillRun = !shouldReturnToMenu && (!hasSeenIntroAnimation || forceIntroReplay);
-  let menuInteractive = shouldReturnToMenu || !introWillRun;
-  let introReadyToEnter = shouldReturnToMenu || !introWillRun;
-  let introEntering = false;
-  let introSequenceAborted = false;
-  let introWasSkipped = false;
 
-  swipeHintEl.classList.add('hidden');
-
-  function enableHomeInteractions() {
-    if (menuInteractive) return;
-    menuInteractive = true;
-    clearPaint();
-    applyProgress(progress);
-    cacheRects();
-  }
-
-  function showSwipeHint() {
-    if (shouldReturnToMenu) {
-      enableHomeInteractions();
-      return;
-    }
-    if (introWillRun && !introWasSkipped) {
-      enableHomeInteractions();
-      return;
-    }
-    swipeHintEl.classList.add('is-simple');
-    swipeHintEl.classList.remove('hidden');
-  }
-
-  function dismissSwipeHint(e) {
-    if (swipeHintEl.classList.contains('hidden')) return;
-    if (e) {
-      if (e.cancelable) e.preventDefault();
-      e.stopPropagation();
-    }
+  /* ── 首頁進入提示 ── */
+  function dismissSwipeHint() {
     swipeHintEl.classList.add('hidden');
-    enableHomeInteractions();
   }
-
-  swipeHintEl.addEventListener('click', dismissSwipeHint);
-  swipeHintEl.addEventListener('touchend', dismissSwipeHint, { passive: false });
-  swipeHintEl.addEventListener('wheel', dismissSwipeHint, { passive: false });
-
-  function revealIntroEnter() {
-    introEnterEl.hidden = false;
-    introEnterEl.textContent = INTRO_COPY.enter;
-    requestAnimationFrame(() => {
-      introEnterEl.classList.add('is-visible');
-    });
-  }
-
-  function markIntroReady() {
-    if (introReadyToEnter) return;
-    introReadyToEnter = true;
-    introShellEl.classList.add('is-enterable');
-    introShellEl.setAttribute('aria-disabled', 'false');
-    revealIntroEnter();
-    try {
-      introShellEl.focus({ preventScroll: true });
-    } catch (error) {
-      introShellEl.focus();
-    }
-  }
-
-  async function runIntroSequence() {
-    if (shouldReturnToMenu || !introOverlayEl || !introWillRun) return;
-
-    introShellEl.setAttribute('aria-disabled', 'true');
-    introStatusEl.textContent = 'BOOTING';
-    introCommandEl.textContent = '';
-    introConnectEl.textContent = '';
-    introAsciiEl.textContent = '';
-    introIdEl.textContent = '';
-    introPwEl.textContent = '';
-    introLoadingEl.textContent = '';
-    introHintEl.textContent = '';
-
-    await sleep(280);
-    if (introSequenceAborted) return;
-    await typeText(introCommandEl, INTRO_COPY.command, 28);
-    if (introSequenceAborted) return;
-
-    await sleep(220);
-    introStatusEl.textContent = 'CONNECTING';
-    await typeText(introConnectEl, INTRO_COPY.connect, 24);
-    if (introSequenceAborted) return;
-
-    await sleep(220);
-    introStatusEl.textContent = 'AUTH';
-    introAsciiEl.textContent = INTRO_ASCII;
-    introAsciiEl.style.opacity = '0';
-    await sleep(40);
-    introAsciiEl.style.transition = 'opacity 0.5s ease';
-    introAsciiEl.style.opacity = '1';
-
-    await sleep(560);
-    if (introSequenceAborted) return;
-    introStatusEl.textContent = 'LOGIN';
-    introLoginEl.hidden = false;
-    await sleep(140);
-    if (introSequenceAborted) return;
-    await typeText(introIdEl, INTRO_COPY.id, 96);
-    if (introSequenceAborted) return;
-
-    await sleep(180);
-    await typeMaskedDots(introPwEl, INTRO_COPY.pwLength, 110);
-    if (introSequenceAborted) return;
-
-    await sleep(260);
-    introStatusEl.textContent = 'LOADING';
-    introLoadingEl.hidden = false;
-    await typeText(introLoadingEl, INTRO_COPY.loadingPrefix, 60);
-    if (introSequenceAborted) return;
-
-    await sleep(380);
-    introLoadingEl.textContent = `${INTRO_COPY.loadingPrefix}\n${INTRO_COPY.welcome}`;
-    introStatusEl.textContent = 'AUTHORIZED';
-
-    await sleep(420);
-    if (introSequenceAborted) return;
-    introHintEl.hidden = false;
-    await typeText(introHintEl, INTRO_COPY.hintLines, 18);
-    if (introSequenceAborted) return;
-
-    await sleep(220);
-    markIntroReady();
-  }
-
-  function finishIntroTransition() {
-    if (!introOverlayEl) return;
-    introOverlayEl.hidden = true;
-    document.documentElement.classList.remove('intro-active', 'intro-entering', 'intro-unlocked');
-    document.documentElement.classList.add('intro-complete');
-    introEntering = false;
-    try {
-      localStorage.setItem('indexAnAnimationSeen', 'true');
-    } catch (err) { /* ignore quota errors */ }
-    clearPaint();
-    applyProgress(progress);
-    cacheRects();
-    showSwipeHint();
-  }
-
-  function enterHome() {
-    if (!introReadyToEnter || introEntering || shouldReturnToMenu) return;
-    introEntering = true;
-    introSequenceAborted = true;
-    if (introShellEl) introShellEl.blur();
-    document.documentElement.classList.remove('intro-active');
-    document.documentElement.classList.add('intro-unlocked', 'intro-entering');
-    window.setTimeout(finishIntroTransition, 860);
-  }
-
-  function skipIntro(e) {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    if (introEntering || shouldReturnToMenu) return;
-    introWasSkipped = true;
-    introSequenceAborted = true;
-    introReadyToEnter = true;
-    enterHome();
-  }
-
-  if (introShellEl) {
-    introShellEl.addEventListener('click', e => {
-      if (introSkipEl && (e.target === introSkipEl || introSkipEl.contains(e.target))) return;
-      enterHome();
-    });
-    introShellEl.addEventListener('keydown', e => {
-      if (!introReadyToEnter) return;
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        enterHome();
-      }
-    });
-  }
-
-  if (introSkipEl) {
-    introSkipEl.addEventListener('click', skipIntro);
-  }
+  document.addEventListener('click', dismissSwipeHint, { once: true });
+  document.addEventListener('touchend', dismissSwipeHint, { once: true, passive: true });
+  document.addEventListener('wheel', dismissSwipeHint, { once: true, passive: true });
 
   /* ── 渲染引言：垂直欄位，從右上往下、再往左 ── */
   const chars = QUOTE.split('');
@@ -1157,7 +523,6 @@
   }
 
   function paintFromPoint(x, y) {
-    if (!menuInteractive) return;
     if (!cachedRects.length) cacheRects();
     const [br, bg, bb] = mobileBaseRGB;
     cachedRects.forEach(({ el, rect }) => {
@@ -1177,63 +542,35 @@
     });
   }
 
-  quoteBoxEl.addEventListener('pointerenter', () => {
-    if (!menuInteractive) return;
-    cacheRects();
-  });
-  quoteBoxEl.addEventListener('pointermove', e => {
-    if (!menuInteractive) return;
-    paintFromPoint(e.clientX, e.clientY);
-  });
-  quoteBoxEl.addEventListener('pointerleave', () => {
-    if (!menuInteractive) return;
-    clearPaint();
-  });
+  quoteBoxEl.addEventListener('pointerenter', cacheRects);
+  quoteBoxEl.addEventListener('pointermove', e => paintFromPoint(e.clientX, e.clientY));
+  quoteBoxEl.addEventListener('pointerleave', clearPaint);
   quoteBoxEl.addEventListener('touchstart', e => {
-    if (!menuInteractive) return;
     const t = e.touches[0]; if (!t) return;
     cacheRects(); paintFromPoint(t.clientX, t.clientY);
   }, { passive: true });
   quoteBoxEl.addEventListener('touchmove', e => {
-    if (!menuInteractive) return;
     const t = e.touches[0]; if (!t) return;
     paintFromPoint(t.clientX, t.clientY);
   }, { passive: true });
-  quoteBoxEl.addEventListener('touchend', () => {
-    if (!menuInteractive) return;
-    clearPaint();
-  }, { passive: true });
+  quoteBoxEl.addEventListener('touchend', clearPaint, { passive: true });
   document.addEventListener('DOMContentLoaded', () => {
     initCredit();
     if (!creditEl) return;
 
-    creditEl.addEventListener('pointerenter', () => {
-      if (!menuInteractive) return;
-      cacheRects();
-    });
-    creditEl.addEventListener('pointermove', e => {
-      if (!menuInteractive) return;
-      paintFromPoint(e.clientX, e.clientY);
-    });
-    creditEl.addEventListener('pointerleave', () => {
-      if (!menuInteractive) return;
-      clearPaint();
-    });
+    creditEl.addEventListener('pointerenter', cacheRects);
+    creditEl.addEventListener('pointermove', e => paintFromPoint(e.clientX, e.clientY));
+    creditEl.addEventListener('pointerleave', clearPaint);
     creditEl.addEventListener('touchstart', e => {
-      if (!menuInteractive) return;
       const t = e.touches[0]; if (!t) return;
       cacheRects();
       paintFromPoint(t.clientX, t.clientY);
     }, { passive: true });
     creditEl.addEventListener('touchmove', e => {
-      if (!menuInteractive) return;
       const t = e.touches[0]; if (!t) return;
       paintFromPoint(t.clientX, t.clientY);
     }, { passive: true });
-    creditEl.addEventListener('touchend', () => {
-      if (!menuInteractive) return;
-      clearPaint();
-    }, { passive: true });
+    creditEl.addEventListener('touchend', clearPaint, { passive: true });
     clearPaint();
     cacheRects();
   });
@@ -1246,30 +583,25 @@
   }
 
   document.addEventListener('pointerdown', e => {
-    if (!menuInteractive) return;
     if (!isMobile()) return;
     cacheRects();
     paintFromPoint(e.clientX, e.clientY);
   }, { passive: true });
   document.addEventListener('pointermove', e => {
-    if (!menuInteractive) return;
     if (!isMobile()) return;
     paintFromPoint(e.clientX, e.clientY);
   }, { passive: true });
   document.addEventListener('pointerup', () => {
-    if (!menuInteractive) return;
     if (isMobile()) clearPaint();
   }, { passive: true });
   document.addEventListener('touchstart', paintTouchEvent, { passive: true });
   document.addEventListener('touchmove', paintTouchEvent, { passive: true });
   document.addEventListener('touchend', () => {
-    if (!menuInteractive) return;
     if (isMobile()) clearPaint();
   }, { passive: true });
 
   detailLinks.forEach(link => {
     link.addEventListener('click', e => {
-      if (!menuInteractive) return;
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
       e.preventDefault();
       sessionStorage.setItem('aboutEntry', '1');
@@ -1351,24 +683,20 @@
   }
 
   window.addEventListener('wheel', e => {
-    if (!menuInteractive) return;
     e.preventDefault();
     goTo(e.deltaY > 0 ? 1 : 0);
   }, { passive: false });
 
   let touchStartY = 0;
   window.addEventListener('touchstart', e => {
-    if (!menuInteractive) return;
     touchStartY = e.touches[0].clientY;
   }, { passive: true });
   window.addEventListener('touchend', e => {
-    if (!menuInteractive) return;
     const dy = touchStartY - e.changedTouches[0].clientY;
     if (Math.abs(dy) > 40) goTo(dy > 0 ? 1 : 0);
   }, { passive: true });
 
   window.addEventListener('keydown', e => {
-    if (!menuInteractive) return;
     if (['ArrowDown', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); goTo(1); }
     if (['ArrowUp', 'PageUp'].includes(e.key))         { e.preventDefault(); goTo(0); }
   });
@@ -1382,44 +710,6 @@
     new ResizeObserver(cacheRects).observe(quoteBoxEl);
   }
 
-  /* ── 彩蛋：點擊台詞 10 次切換下次動畫狀態 ── */
-  let easterTapCount = 0;
-  let easterToastTimer = null;
-
-  function showEasterToast(message) {
-    if (!easterToastEl) return;
-    easterToastEl.textContent = message;
-    easterToastEl.classList.add('is-visible');
-    if (easterToastTimer) {
-      window.clearTimeout(easterToastTimer);
-    }
-    easterToastTimer = window.setTimeout(() => {
-      easterToastEl.classList.remove('is-visible');
-    }, 3200);
-  }
-
-  function handleEasterTap() {
-    if (!menuInteractive) return;
-    easterTapCount += 1;
-    if (easterTapCount < 10) return;
-    easterTapCount = 0;
-    let willReplay = false;
-    try {
-      const current = localStorage.getItem('indexAnForceReplay') === 'true';
-      willReplay = !current;
-      if (willReplay) {
-        localStorage.setItem('indexAnForceReplay', 'true');
-      } else {
-        localStorage.removeItem('indexAnForceReplay');
-      }
-    } catch (err) { /* ignore storage errors */ }
-    showEasterToast(willReplay
-      ? '下次載入時\n將重新播放開場動畫'
-      : '已取消下次的\n開場動畫');
-  }
-
-  quoteBoxEl.addEventListener('click', handleEasterTap);
-
   if (shouldReturnToMenu) {
     progress = 1;
     targetP = 1;
@@ -1428,12 +718,8 @@
     window.setTimeout(() => {
       document.documentElement.classList.remove('returning-to-menu');
     }, 760);
-  } else if (introWillRun) {
-    applyProgress(0);
-    runIntroSequence();
   } else {
     applyProgress(0);
-    showSwipeHint();
   }
   cacheRects();
 })();
