@@ -1,0 +1,57 @@
+.protection-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: var(--page-bg, #f7f7f7);
+  color: #000000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease-out;
+}
+
+.protection-overlay.is-visible,
+html.protection-scrub .protection-overlay,
+html.protection-locked .protection-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.protection-panel {
+  width: min(430px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.protection-kicker {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.56em;
+  color: rgba(0, 0, 0, 0.34);
+  white-space: nowrap;
+}
+
+.protection-message {
+  margin: 0;
+  font-size: clamp(16px, 2.1vw, 24px);
+  line-height: 1.8;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+
+html.protection-scrub body > :not(.protection-overlay),
+html.protection-locked body > :not(.protection-overlay) {
+  filter: blur(18px);
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+html.protection-locked,
+html.protection-locked body {
+  overflow: hidden;
+}

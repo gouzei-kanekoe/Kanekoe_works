@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" type="image/png" href="ICO/works_ico.png">
+  <link rel="shortcut icon" href="ICO/works_ico.png">
+  <title>鐘聲 || 個人主頁</title>
+  <!-- BEGIN SOCIAL META -->
+  <meta name="description" content="文字創作者鐘聲（かねこえ）的個人網站。">
+  <link rel="canonical" href="https://kanekoe.work/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="鐘聲">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="鐘聲 || 個人主頁">
+  <meta property="og:description" content="文字創作者鐘聲（かねこえ）的個人網站。">
+  <meta property="og:url" content="https://kanekoe.work/">
+  <meta property="og:image" content="https://kanekoe.work/pic/og-home.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="5000">
+  <meta property="og:image:height" content="2625">
+  <meta property="og:image:alt" content="鐘聲個人主頁首頁視覺">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="鐘聲 || 個人主頁">
+  <meta name="twitter:description" content="文字創作者鐘聲（かねこえ）的個人網站。">
+  <meta name="twitter:image" content="https://kanekoe.work/pic/og-home.png">
+  <meta name="twitter:image:alt" content="鐘聲個人主頁首頁視覺">
+  <!-- END SOCIAL META -->
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    function resetPageScroll() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    }
+
+    function resetPageScrollSoon() {
+      resetPageScroll();
+      requestAnimationFrame(resetPageScroll);
+      setTimeout(resetPageScroll, 0);
+      setTimeout(resetPageScroll, 80);
+      setTimeout(resetPageScroll, 260);
+      setTimeout(resetPageScroll, 800);
+    }
+
+    document.addEventListener('DOMContentLoaded', resetPageScrollSoon);
+    window.addEventListener('pageshow', resetPageScrollSoon);
+    window.addEventListener('load', resetPageScrollSoon);
+    window.addEventListener('pagehide', resetPageScroll);
+
+    if (sessionStorage.getItem('returnToMenu') === '1') {
+      document.documentElement.classList.add('returning-to-menu');
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-ExtraLight.otf') format('opentype'); font-weight: 200; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
+    @font-face { font-family: 'Source Han Serif TC'; src: url('FONTS/SourceHanSerifTC-Heavy.otf') format('opentype'); font-weight: 900; font-display: swap; }
+    .site-credit {
+      position: fixed;
+      left: 50%;
+      bottom: max(env(safe-area-inset-bottom), 4px);
+      transform: translateX(-50%);
+      z-index: 50;
+      font-size: 8px;
+      line-height: 1.35;
+      letter-spacing: 0.12em;
+      color: rgba(0, 0, 0, 0.20);
+      text-align: center;
+      white-space: nowrap;
+      padding: 0 12px;
+      pointer-events: auto;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
+    }
+
+    .site-credit-char {
+      display: inline-block;
+      color: rgba(0, 0, 0, 0.20);
+      transition: color 0.2s ease;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden; background: #ffffff;
+      font-family: 'Source Han Serif TC', 'Noto Serif TC', 'Songti TC', 'Songti SC', 'SimSun', serif;
+      font-weight: 600; -webkit-font-smoothing: antialiased;
+      user-select: none; -webkit-user-select: none; overscroll-behavior: none; -webkit-text-size-adjust: 100%;
+    }
+    img, a { -webkit-user-drag: none; -webkit-touch-callout: none; }
+
+    @keyframes scrollDrop {
+      0%   { transform: translateY(-100%); opacity: 0; }
+      30%  { opacity: 1; }
+      70%  { opacity: 1; }
+      100% { transform: translateY(200%); opacity: 0; }
+    }
+    @keyframes leaveToAbout {
+      from { opacity: 1; transform: translateX(0) scale(1); }
+      to   { opacity: 0; transform: translateX(-8vw) scale(0.97); }
+    }
+    @keyframes indexReturnEnter {
+      from { opacity: 0; transform: translateX(-8vw) scale(0.97); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    #stage {
+      position: relative; width: 100vw; min-height: 100svh;
+      overflow: hidden; isolation: isolate; background: #ffffff;
+    }
+
+    /* ── 全站轉場記憶：離開往子頁／從子頁返回 ── */
+    html.returning-to-menu #stage {
+      opacity: 0;
+      transform: translateX(-8vw) scale(0.97);
+      animation: indexReturnEnter 0.80s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: 0.04s;
+    }
+    html.leaving-to-about #stage {
+      animation: leaveToAbout 0.48s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+      pointer-events: none;
+    }
+
+    #quote-box {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      border: 1px solid rgba(0,0,0,0.20);
+      width: min(72svh, 62vw, 720px); height: min(72svh, 62vw, 720px);
+      overflow: hidden; will-change: transform; touch-action: none;
+      padding: clamp(14px, 2vmin, 28px);
+    }
+    #quote-grid {
+      display: grid; width: 100%; height: 100%;
+      pointer-events: none; font-size: clamp(34px, 8.6vmin, 96px);
+    }
+
+    #memorial-field {
+      display: none; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      flex-direction: column; align-items: center;
+      will-change: transform; touch-action: none;
+    }
+    #memorial-row {
+      display: flex; flex-direction: row;
+      gap: clamp(24px, 3vw, 56px); align-items: flex-start;
+    }
+    #memorial-box-l, #memorial-box-r {
+      border: 1px solid rgba(0,0,0,0.20);
+      width: min(68svh, 30vw, 520px); height: min(68svh, 30vw, 520px);
+      overflow: hidden; padding: calc(min(68svh, 30vw, 520px) * 0.035); flex: none;
+    }
+    #memorial-grid-l, #memorial-grid-r {
+      display: grid; width: 100%; height: 100%;
+      pointer-events: none; font-size: calc(min(68svh, 30vw, 520px) / 14);
+    }
+    #dedication {
+      margin-top: clamp(18px, 2.4vh, 34px);
+      font-size: clamp(11px, 0.95vw, 15px);
+      letter-spacing: 0.6em; text-indent: 0.6em;
+      color: #a7a1b0; font-weight: 600; line-height: 2; text-align: center;
+    }
+
+    #site-title {
+      position: absolute; bottom: 7vh; right: 6vw;
+      color: rgba(0,0,0,0.92); font-size: clamp(13px, 1.1vw, 18px);
+      letter-spacing: 0.6em; line-height: 2.2; text-align: right;
+      font-weight: 600; will-change: opacity;
+    }
+
+    #menu-nav {
+      position: absolute; top: 50%;
+      left: calc(50% - 14vw + min(23.76vh, 20.46vw, 237.6px) + clamp(72px, 6vw, 96px));
+      transform: translateY(-50%) translateX(60vw); opacity: 0;
+      display: flex; flex-direction: column; gap: 4vh;
+      will-change: transform, opacity;
+    }
+    #menu-nav a {
+      font-size: clamp(13px, 1.1vw, 18px); letter-spacing: 0.6em;
+      color: #a5a5a5; cursor: pointer; transition: color 0.32s ease;
+      font-weight: 600; background: none; border: none; text-align: right;
+      font-family: inherit;
+      padding: 0; text-decoration: none; -webkit-tap-highlight-color: transparent;
+    }
+    #menu-nav a:hover, #menu-nav a:active { color: #464e66; }
+
+    #menu-nav-mobile {
+      display: none; position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, 45vh); opacity: 0;
+      flex-direction: row-reverse; justify-content: center; gap: 5vw;
+      will-change: transform, opacity;
+    }
+    #menu-nav-mobile a {
+      writing-mode: vertical-rl; font-size: clamp(13px, 3.6vw, 16px);
+      letter-spacing: 0.45em; color: #a5a5a5; cursor: pointer;
+      transition: color 0.32s ease; font-weight: 600; background: none;
+      border: none; text-align: center; padding: 0; text-decoration: none;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #menu-nav-mobile a:active { color: #464e66; }
+
+    #scroll-hint {
+      position: absolute; bottom: 6vh; left: 50%; transform: translateX(-50%);
+      width: 1px; height: 36px; overflow: hidden; will-change: opacity;
+    }
+    #scroll-hint::after {
+      content: ''; display: block; width: 1px; height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.3), transparent);
+      animation: scrollDrop 2s ease-in-out infinite;
+    }
+
+    #swipe-hint {
+      position: fixed; inset: 0; background: rgba(255,255,255,0.76);
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; cursor: pointer; opacity: 1; transition: opacity 0.5s ease;
+    }
+  </style>
+  <link rel="stylesheet" href="assets/devtools-protection.css">
+</head>
+<body>
+
+<main id="stage" class="stage">
+
+  <div id="quote-box" aria-label="主視覺引言區塊">
+    <div id="quote-grid"></div>
+  </div>
+
+  <div id="memorial-field" aria-label="紀念引言區塊">
+    <div id="memorial-row">
+      <div id="memorial-box-l" data-mem-box="l">
+        <div id="memorial-grid-l"></div>
+      </div>
+      <div id="memorial-box-r" data-mem-box="r">
+        <div id="memorial-grid-r"></div>
+      </div>
+    </div>
+    <p id="dedication">媽，謝謝你。<span style="display:block;margin-top:0.95em;font-size:0.8em;letter-spacing:0.3em;text-indent:0.3em;color:#bcb7c4;font-weight:600">(11.1965 ~ 08.2026)</span></p>
+  </div>
+
+  <div id="site-title">
+    鐘　聲<br>
+    個人主頁
+  </div>
+
+  <nav id="menu-nav" aria-label="主要導覽">
+    <a href="about.html" data-nav="1">鐘聲是誰</a>
+    <a href="serial.html" data-nav="1">連載作品</a>
+    <a href="misc.html" data-nav="1">各種各種</a>
+    <a href="discord.html" data-nav="1">見字寫文</a>
+    <a href="contact.html" data-nav="1">聯絡方式</a>
+  </nav>
+
+  <nav id="menu-nav-mobile" aria-label="主要導覽">
+    <a href="about.html" data-nav="1">鐘聲是誰</a>
+    <a href="serial.html" data-nav="1">連載作品</a>
+    <a href="misc.html" data-nav="1">各種各種</a>
+    <a href="discord.html" data-nav="1">見字寫文</a>
+    <a href="contact.html" data-nav="1">聯絡方式</a>
+  </nav>
+
+  <div id="scroll-hint" aria-hidden="true"></div>
+
+  <div id="swipe-hint" role="complementary">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2.4vh;width:min(82vw,560px)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:28px;height:28px;opacity:0.45">
+        <path d="M9 3.5C9 2.672 9.672 2 10.5 2s1.5.672 1.5 1.5v7"></path>
+        <path d="M12 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5v1M15 9.5c0-.828.672-1.5 1.5-1.5S18 8.672 18 9.5v1"></path>
+        <path d="M18 10.5c0-.828.448-1.5 1-1.5s1 .672 1 1.5V14c0 3.314-2.686 6-6 6h-2a6 6 0 0 1-6-6v-1.083c0-.504.3-.945.756-1.14L8 11.5V8.5c0-.828.672-1.5 1.5-1.5S11 7.672 11 8.5"></path>
+      </svg>
+      <p style="color:rgba(0,0,0,0.5);font-size:clamp(12px,1.5vmin,16px);letter-spacing:0.18em;line-height:2.1;font-weight:600;text-align:center">輕觸或移動滑鼠到台詞上，會有特別效果<span style="display:block;margin-top:0.4em">請使用滾輪或下滑以展開目錄</span></p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── 設定 ── */
+  var SPECIAL_WEEKDAY = 1;            /* 0 = 星期日 … 1 = 星期一 */
+  var TINT_SELF   = '#b9c3d4';        /* 左／上：我的詩，灰藍 */
+  var TINT_MOTHER = '#c3b9d1';        /* 右／下：母親的詩，灰紫 */
+  /* 預設就帶色的兩句：結尾那組是兩首詩交會的地方（欄位由右往左數，0 起） */
+  var ACCENT_LINES = [8, 9];
+  var ACCENT_STRENGTH = 0.55;         /* 呼吸峰頂濃度；0 = 隱形，1 = 全色 */
+  var ACCENT_BREATH = true;           /* 10 秒週期極慢起伏 */
+  var ECHO_LINKED = true;             /* 滑一邊，另一邊相對位置一起亮 */
+  var ECHO_GAIN = 0.62;
+
+  var QUOTE = '手是應該用來擁抱別人，創造奇蹟，而不是傷害自己。';
+  var POEM_SELF = ['長大後我的貪心長出腳', '卻一步步走離你的身邊', '貪的是不令你失望的我', '等到出息時才敢來看你', '等到花開時才敢談回家', '你就在那頭一直在等我', '從我還不懂愛的時候起', '你早把全部的愛都給我', '謝謝你能讓我成為家人', '請准我貪心地再叫聲媽'];
+  var POEM_MOTHER = ['長大後的你愛人又被愛', '此時我展示貪婪的本性', '願你去愛著別人的時候', '記住不必總把自己縮小', '願你被大家疼愛的時候', '不必懷疑那只是一場夢', '這些年我許過不少願望', '多得我也數不清有多少', '這一刻我只想跟你說聲', '謝謝你能成為我的家人'];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var el = {
+    stage: $('stage'),
+    quoteBox: $('quote-box'), quoteGrid: $('quote-grid'),
+    memField: $('memorial-field'), memRow: $('memorial-row'),
+    memBoxL: $('memorial-box-l'), memBoxR: $('memorial-box-r'),
+    memGridL: $('memorial-grid-l'), memGridR: $('memorial-grid-r'),
+    dedication: $('dedication'),
+    title: $('site-title'), nav: $('menu-nav'), navMobile: $('menu-nav-mobile'),
+    hint: $('scroll-hint'), swipe: $('swipe-hint'), credit: null
+  };
+
+  var groups = [], progress = 0, targetP = 0, rafId = null;
+  var mobileBaseRGB = [247, 247, 247];
+  var special = false, field = el.quoteBox, ro = null;
+  var breath = 1, breathRaf = null, paintTarget = null, echoTarget = null;
+
+  /* 舊瀏覽器不支援 dvh 時退回 svh，免得版面塌陷 */
+  var VU = (window.CSS && window.CSS.supports && window.CSS.supports('height', '100dvh')) ? 'dvh' : 'svh';
+
+  /* 從子頁按「返回」回來：直接展開目錄（沿用全站的轉場記憶） */
+  var shouldReturnToMenu = false;
+  try {
+    shouldReturnToMenu = sessionStorage.getItem('returnToMenu') === '1';
+    if (shouldReturnToMenu) sessionStorage.removeItem('returnToMenu');
+  } catch (e) {}
+
+  function isMobile() { return window.innerWidth <= 768; }
+  function isSmall() { return window.innerWidth <= 480; }
+
+  /* ── 防複製（沿用全站設定） ── */
+  function lockCopyActions() {
+    document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    document.addEventListener('copy', function (e) { e.preventDefault(); });
+    document.addEventListener('cut', function (e) { e.preventDefault(); });
+    document.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    document.addEventListener('selectstart', function (e) { e.preventDefault(); });
+    document.addEventListener('keydown', function (e) {
+      var key = String(e.key || '').toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'x'].indexOf(key) >= 0) e.preventDefault();
+    });
+  }
+
+  /* ── 星期一判定（港／台時間 UTC+8，整天 00:00–23:59） ── */
+  function isSpecial() {
+    try {
+      var q = new URLSearchParams(window.location.search).get('memorial');
+      if (q === '1') return true;
+      if (q === '0') return false;
+    } catch (e) {}
+    try {
+      var short = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Hong_Kong', weekday: 'short' }).format(new Date());
+      var idx = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(short);
+      if (idx >= 0) return idx === SPECIAL_WEEKDAY;
+    } catch (e) {}
+    /* 後備：以 UTC 手算 +8 時區 */
+    var hk = new Date(Date.now() + (8 * 60 + new Date().getTimezoneOffset()) * 60000);
+    return hk.getDay() === SPECIAL_WEEKDAY;
+  }
+
+  function hexToRgb(hex) {
+    var m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(String(hex || ''));
+    return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [195, 185, 209];
+  }
+
+  /* ── 引言字元：垂直欄位，從右上往下、再往左 ── */
+  function mix(a, b, t) { return [0,1,2].map(function (i) { return Math.round(a[i] + (b[i]-a[i]) * t); }); }
+
+  function makeChars(gridEl, lines) {
+    gridEl.textContent = '';
+    var cols = lines.length;
+    var rows = Math.max.apply(null, lines.map(function (l) { return Array.from(l).length; }));
+    gridEl.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
+    gridEl.style.gridTemplateRows = 'repeat(' + rows + ', 1fr)';
+    var els = [];
+    lines.forEach(function (line, li) {
+      Array.from(line).forEach(function (ch, ci) {
+        var span = document.createElement('span');
+        span.textContent = ch;
+        span.style.cssText = 'display:flex;align-items:center;justify-content:center;line-height:1;font-weight:700;transition:color 0.2s ease';
+        span.style.gridColumn = String(cols - li);
+        span.style.gridRow = String(ci + 1);
+        if (ACCENT_LINES.indexOf(li) >= 0) span.dataset.accent = '1';
+        gridEl.appendChild(span);
+        els.push(span);
+      });
+    });
+    return els;
+  }
+
+  var quoteGroup, memGroups, creditGroup;
+
+  function buildQuote() {
+    var chars = Array.from(QUOTE);
+    var cols = Math.max(2, Math.floor(Math.sqrt(chars.length)));
+    var rows = Math.ceil(chars.length / cols);
+    var lines = [];
+    for (var c = 0; c < cols; c++) lines.push(chars.slice(c * rows, (c + 1) * rows).join(''));
+    var els = makeChars(el.quoteGrid, lines);
+    quoteGroup = {
+      hit: el.quoteBox, els: els, rects: [],
+      base: function () { return mobileBaseRGB; },
+      hover: function () { return [192, 198, 204]; }
+    };
+    groups.push(quoteGroup);
+  }
+
+  function buildPoems() {
+    var base = function () { return [248, 247, 249]; };
+    var hovSelf = function () { return hexToRgb(TINT_SELF); };
+    var hovMother = function () { return hexToRgb(TINT_MOTHER); };
+    memGroups = [
+      { hit: el.memBoxL, els: makeChars(el.memGridL, POEM_SELF), rects: [], base: base, hover: hovSelf, accent: true },
+      { hit: el.memBoxR, els: makeChars(el.memGridR, POEM_MOTHER), rects: [], base: base, hover: hovMother, accent: true }
+    ];
+    memGroups[0].partner = memGroups[1];
+    memGroups[1].partner = memGroups[0];
+    memGroups.forEach(function (g) {
+      g.accentEls = g.els.filter(function (e) { return e.dataset.accent === '1'; });
+    });
+    groups.push(memGroups[0], memGroups[1]);
+  }
+
+  /* 版權駐腳排在 <script> 之後，等 DOM 齊了才拆字上色 */
+  function buildCredit() {
+    var host = $('site-credit');
+    if (!host || creditGroup) return;
+    el.credit = host;
+    var text = host.textContent || '';
+    host.textContent = '';
+    var els = Array.from(text).map(function (ch) {
+      var span = document.createElement('span');
+      span.className = 'site-credit-char';
+      span.textContent = ch === ' ' ? String.fromCharCode(160) : ch;
+      span.style.cssText = 'display:inline-block;color:rgba(0,0,0,0.20);transition:color 0.2s ease';
+      host.appendChild(span);
+      return span;
+    });
+    creditGroup = {
+      hit: host, els: els, rects: [],
+      base: function () { return [204, 204, 204]; },
+      hover: function () { return [156, 156, 156]; }
+    };
+    groups.push(creditGroup);
+    bindPaintNode(host);
+    clearGroup(creditGroup);
+    cacheRects();
+  }
+
+  /* ── 游標／指尖漸層，兩個框各自獨立 ── */
+  function cacheRects() {
+    groups.forEach(function (g) {
+      g.hitRect = g.hit.getBoundingClientRect();
+      g.rects = g.els.map(function (e) { return { el: e, rect: e.getBoundingClientRect() }; });
+    });
+  }
+
+  function rgbStr(c) { return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')'; }
+
+  /* 呼吸中的當下濃度：谷底幾乎看不見，峰頂到 ACCENT_STRENGTH */
+  function accentNow(g) {
+    var lo = ACCENT_STRENGTH * 0.22;
+    var ph = ACCENT_BREATH ? breath : 1;
+    return mix(g.base(), g.hover(), lo + (ACCENT_STRENGTH - lo) * ph);
+  }
+
+  function applyBreath() {
+    if (!special || !memGroups) return;
+    memGroups.forEach(function (g) {
+      if (!g.accentEls || !g.accentEls.length) return;
+      if (g === paintTarget || g === echoTarget) return;
+      var css = rgbStr(accentNow(g));
+      g.accentEls.forEach(function (e) { e.style.color = css; });
+    });
+  }
+
+  /* 10 秒週期，極慢起伏；只在紀念模式時運轉 */
+  function startBreath() {
+    if (breathRaf) return;
+    var period = 10000, last = -1;
+    (function loop(ts) {
+      breathRaf = requestAnimationFrame(loop);
+      breath = (1 - Math.cos((ts % period) / period * Math.PI * 2)) / 2;
+      if (Math.abs(breath - last) < 0.006) return;
+      last = breath;
+      applyBreath();
+    })(0);
+  }
+
+  function stopBreath() {
+    if (!breathRaf) return;
+    cancelAnimationFrame(breathRaf);
+    breathRaf = null;
+  }
+
+  /* 把一個框裡的相對位置，映到另一個框的同一相對位置 */
+  function mapToPartner(from, to, x, y) {
+    var a = from.hitRect, b = to.hitRect;
+    if (!a || !b || !a.width || !b.width) return null;
+    return {
+      x: b.left + ((x - a.left) / a.width) * b.width,
+      y: b.top + ((y - a.top) / a.height) * b.height
+    };
+  }
+
+  function clearGroup(g) {
+    var css = rgbStr(g.base());
+    var acss = g.accent ? rgbStr(accentNow(g)) : css;
+    g.els.forEach(function (e) { e.style.color = e.dataset.accent === '1' ? acss : css; });
+  }
+
+  function clearPaint() {
+    paintTarget = null;
+    echoTarget = null;
+    groups.forEach(clearGroup);
+  }
+
+  function paintGroup(g, x, y, gain) {
+    var k = gain == null ? 1 : gain;
+    var groupBase = g.base(), hover = g.hover();
+    var accentBase = g.accent ? accentNow(g) : groupBase;
+    g.rects.forEach(function (item) {
+      var base = item.el.dataset.accent === '1' ? accentBase : groupBase;
+      var rect = item.rect;
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var dist = Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2));
+      var range = Math.max(rect.width, rect.height) * 2.2;
+      var t = Math.max(0, 1 - dist / range);
+      var s = t * t * (3 - 2 * t) * k;
+      var r = Math.round(base[0] + s * (hover[0] - base[0]));
+      var gg = Math.round(base[1] + s * (hover[1] - base[1]));
+      var b = Math.round(base[2] + s * (hover[2] - base[2]));
+      item.el.style.color = 'rgb(' + r + ',' + gg + ',' + b + ')';
+    });
+  }
+
+  function paintAt(x, y) {
+    if (!groups[0].rects.length) cacheRects();
+    var target = null;
+    groups.forEach(function (g) {
+      var r = g.hitRect;
+      if (!target && r && r.width && x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) target = g;
+    });
+    /* 滑一邊，另一邊的相對位置一起亮，但輕一點 —— 呼應，不是複製 */
+    var partner = (ECHO_LINKED && target && target.partner) ? target.partner : null;
+    var mapped = partner ? mapToPartner(target, partner, x, y) : null;
+    paintTarget = target;
+    echoTarget = mapped ? partner : null;
+    groups.forEach(function (g) {
+      if (g === target) paintGroup(g, x, y, 1);
+      else if (g === partner && mapped) paintGroup(g, mapped.x, mapped.y, ECHO_GAIN);
+      else clearGroup(g);
+    });
+  }
+
+  function bindPaintNode(node) {
+    if (!node) return;
+    node.addEventListener('pointerenter', cacheRects);
+    node.addEventListener('pointermove', function (e) { paintAt(e.clientX, e.clientY); });
+    node.addEventListener('pointerleave', clearPaint);
+    node.addEventListener('touchstart', function (e) {
+      var t = e.touches[0]; if (!t) return;
+      cacheRects(); paintAt(t.clientX, t.clientY);
+    }, { passive: true });
+    node.addEventListener('touchmove', function (e) {
+      var t = e.touches[0]; if (!t) return;
+      paintAt(t.clientX, t.clientY);
+    }, { passive: true });
+    node.addEventListener('touchend', clearPaint, { passive: true });
+  }
+
+  function dismissSwipeHint() {
+    el.swipe.style.opacity = '0';
+    el.swipe.style.pointerEvents = 'none';
+  }
+
+  function bindPointer() {
+    [el.quoteBox, el.memBoxL, el.memBoxR].forEach(bindPaintNode);
+
+    var touchPaint = function (e) {
+      if (!isMobile()) return;
+      var t = e.touches[0]; if (!t) return;
+      cacheRects(); paintAt(t.clientX, t.clientY);
+    };
+    document.addEventListener('pointerdown', function (e) {
+      if (!isMobile()) return;
+      cacheRects(); paintAt(e.clientX, e.clientY);
+    }, { passive: true });
+    document.addEventListener('pointermove', function (e) {
+      if (isMobile()) paintAt(e.clientX, e.clientY);
+    }, { passive: true });
+    document.addEventListener('pointerup', function () { if (isMobile()) clearPaint(); }, { passive: true });
+    document.addEventListener('touchstart', touchPaint, { passive: true });
+    document.addEventListener('touchmove', touchPaint, { passive: true });
+    document.addEventListener('touchend', function () { if (isMobile()) clearPaint(); }, { passive: true });
+
+    document.addEventListener('click', dismissSwipeHint, { once: true });
+    document.addEventListener('touchend', dismissSwipeHint, { once: true, passive: true });
+    document.addEventListener('wheel', dismissSwipeHint, { once: true, passive: true });
+  }
+
+  function bindNav() {
+    Array.prototype.forEach.call(document.querySelectorAll('a[data-nav="1"]'), function (link) {
+      link.addEventListener('click', function (e) {
+        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        try { sessionStorage.setItem('aboutEntry', '1'); } catch (err) {}
+        document.documentElement.classList.add('leaving-to-about');
+        var href = link.getAttribute('href');
+        setTimeout(function () { window.location.href = href; }, 460);
+      });
+    });
+  }
+
+  /* ── 桌面／手機版面 ── */
+  function applyLayout() {
+    if (isMobile()) {
+      var top = 'calc(env(safe-area-inset-top) + clamp(38px, 6' + VU + ', 56px))';
+      var right = 'calc(env(safe-area-inset-right) + clamp(24px, 7vw, 52px))';
+      var bottom = 'calc(env(safe-area-inset-bottom) + clamp(28px, 5' + VU + ', 52px))';
+      var left = 'calc(env(safe-area-inset-left) + clamp(24px, 7vw, 52px))';
+      el.stage.style.height = '100' + VU;
+      el.stage.style.minHeight = '0';
+      el.stage.style.padding = top + ' ' + right + ' ' + bottom + ' ' + left;
+      el.quoteBox.style.width = 'min(75vw, 75vmin)';
+      el.quoteBox.style.height = 'min(75vw, 75vmin)';
+      el.quoteBox.style.padding = 'clamp(14px, 4vmin, 24px)';
+      el.quoteGrid.style.fontSize = 'clamp(20px, 7vmin, 48px)';
+      /* 手機紀念版：橫向長方框，欄距較寬，字級由列高決定 */
+      var mw = 'min(90vw, 380px)';
+      var mh = 'min(84vw, 37' + VU + ', 330px)';
+      [el.memBoxL, el.memBoxR].forEach(function (b) {
+        b.style.width = mw; b.style.height = mh;
+        b.style.padding = 'calc(' + mh + ' * 0.05)';
+      });
+      [el.memGridL, el.memGridR].forEach(function (g) { g.style.fontSize = 'calc(' + mh + ' / 14.5)'; });
+      el.memRow.style.flexDirection = 'column-reverse';
+      el.memRow.style.alignItems = 'center';
+      el.memRow.style.gap = 'clamp(8px, 1.2' + VU + ', 16px)';
+      el.dedication.style.fontSize = 'clamp(11px, 3vw, 14px)';
+      el.dedication.style.letterSpacing = '0.5em';
+      el.dedication.style.textIndent = '0.5em';
+      el.dedication.style.marginTop = 'clamp(8px, 1.3' + VU + ', 18px)';
+      el.title.style.bottom = bottom;
+      el.title.style.right = right;
+      el.title.style.fontSize = 'clamp(12px, 3vw, 15px)';
+      el.title.style.letterSpacing = '0.5em';
+      el.nav.style.display = 'none';
+      el.navMobile.style.display = 'flex';
+    } else {
+      el.stage.style.height = '';
+      el.stage.style.minHeight = '100svh';
+      el.stage.style.padding = '';
+      el.quoteBox.style.width = 'min(72svh, 62vw, 720px)';
+      el.quoteBox.style.height = 'min(72svh, 62vw, 720px)';
+      el.quoteBox.style.padding = 'clamp(14px, 2vmin, 28px)';
+      el.quoteGrid.style.fontSize = 'clamp(34px, 8.6vmin, 96px)';
+      var w = 'min(68svh, 30vw, 520px)';
+      [el.memBoxL, el.memBoxR].forEach(function (b) {
+        b.style.width = w; b.style.height = w;
+        b.style.padding = 'calc(' + w + ' * 0.035)';
+      });
+      [el.memGridL, el.memGridR].forEach(function (g) { g.style.fontSize = 'calc(' + w + ' / 14)'; });
+      el.memRow.style.flexDirection = 'row';
+      el.memRow.style.alignItems = 'flex-start';
+      el.memRow.style.gap = 'clamp(24px, 3vw, 56px)';
+      el.dedication.style.fontSize = 'clamp(11px, 0.95vw, 15px)';
+      el.dedication.style.letterSpacing = '0.6em';
+      el.dedication.style.textIndent = '0.6em';
+      el.dedication.style.marginTop = 'clamp(18px, 2.4vh, 34px)';
+      el.title.style.bottom = '7vh';
+      el.title.style.right = '6vw';
+      el.title.style.fontSize = 'clamp(13px, 1.1vw, 18px)';
+      el.title.style.letterSpacing = '0.6em';
+      el.nav.style.display = 'flex';
+      el.navMobile.style.display = 'none';
+    }
+  }
+
+  function updateNavAnchor() {
+    var half = (field.offsetWidth / 2) * 0.66;
+    el.nav.style.left = 'calc(50% - 14vw + ' + half.toFixed(1) + 'px + clamp(72px, 6vw, 96px))';
+  }
+
+  function applyMode() {
+    special = isSpecial();
+    el.quoteBox.style.display = special ? 'none' : 'block';
+    el.memField.style.display = special ? 'flex' : 'none';
+    field = special ? el.memField : el.quoteBox;
+    applyLayout();
+    updateNavAnchor();
+    applyProgress(progress);
+    clearPaint();
+    cacheRects();
+    if (special) startBreath(); else stopBreath();
+    if (ro) ro.disconnect();
+    if ('ResizeObserver' in window) {
+      ro = new ResizeObserver(function () { updateNavAnchor(); cacheRects(); });
+      ro.observe(field);
+    }
+  }
+
+  /* 日子換了就換版面：定時 + 回到前景 + 由記憶體還原時都查一次 */
+  function syncMode() {
+    if (isSpecial() !== special) applyMode();
+  }
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function applyProgress(p) {
+    if (isMobile()) {
+      var endScale = special ? 0.64 : (isSmall() ? 0.78 : 0.76);
+      var startShiftY = special ? -3 : 0;
+      var endShiftY = special ? -21 : (isSmall() ? -13 : -15);
+      var scale = lerp(1, endScale, p);
+      var shiftVh = lerp(startShiftY, endShiftY, p);
+      field.style.transform = 'translate(-50%, calc(-50% + ' + shiftVh.toFixed(2) + 'vh)) scale(' + scale.toFixed(4) + ')';
+      mobileBaseRGB = [247, 247, 247];
+      clearGroup(quoteGroup);
+      var menuY = lerp(55, isSmall() ? 6.5 : 8, p);
+      el.navMobile.style.transform = 'translate(-50%, ' + menuY.toFixed(2) + 'vh)';
+      el.navMobile.style.opacity = p.toFixed(3);
+    } else {
+      mobileBaseRGB = [247, 247, 247];
+      var dScale = lerp(1, 0.66, p);
+      var shiftVw = lerp(0, -14, p);
+      field.style.transform = 'translate(calc(-50% + ' + shiftVw.toFixed(2) + 'vw), -50%) scale(' + dScale.toFixed(4) + ')';
+      var navX = lerp(60, 0, p);
+      el.nav.style.transform = 'translateY(-50%) translateX(' + navX.toFixed(2) + 'vw)';
+      el.nav.style.opacity = p.toFixed(3);
+    }
+    el.title.style.opacity = (1 - p).toFixed(3);
+    el.hint.style.opacity = ((1 - p) * 0.55).toFixed(3);
+  }
+
+  function tick() {
+    var diff = targetP - progress;
+    if (Math.abs(diff) < 0.0003) {
+      progress = targetP;
+      applyProgress(progress);
+      cacheRects();
+      rafId = null;
+      return;
+    }
+    progress += diff * 0.075;
+    applyProgress(progress);
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function goTo(dest) {
+    targetP = Math.max(0, Math.min(1, dest));
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }
+
+  function bindScroll() {
+    window.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      goTo(e.deltaY > 0 ? 1 : 0);
+    }, { passive: false });
+
+    var startY = 0;
+    window.addEventListener('touchstart', function (e) { startY = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchend', function (e) {
+      var dy = startY - e.changedTouches[0].clientY;
+      if (Math.abs(dy) > 40) goTo(dy > 0 ? 1 : 0);
+    }, { passive: true });
+    window.addEventListener('keydown', function (e) {
+      if (['ArrowDown', ' ', 'PageDown'].indexOf(e.key) >= 0) { e.preventDefault(); goTo(1); }
+      if (['ArrowUp', 'PageUp'].indexOf(e.key) >= 0) { e.preventDefault(); goTo(0); }
+    });
+    window.addEventListener('resize', function () {
+      applyLayout();
+      updateNavAnchor();
+      applyProgress(progress);
+      cacheRects();
+    });
+    window.addEventListener('orientationchange', function () {
+      setTimeout(function () { applyLayout(); updateNavAnchor(); applyProgress(progress); cacheRects(); }, 260);
+    });
+  }
+
+  lockCopyActions();
+  buildQuote();
+  buildPoems();
+  bindPointer();
+  bindScroll();
+  bindNav();
+
+  if (shouldReturnToMenu) {
+    progress = 1;
+    targetP = 1;
+    dismissSwipeHint();
+  }
+
+  applyMode();
+
+  if (shouldReturnToMenu) {
+    setTimeout(function () {
+      document.documentElement.classList.remove('returning-to-menu');
+    }, 760);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildCredit);
+  } else {
+    buildCredit();
+  }
+
+  /* 跨過午夜時自動切換 */
+  setInterval(syncMode, 30000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) syncMode(); });
+  window.addEventListener('focus', syncMode);
+  window.addEventListener('pageshow', function () {
+    /* 由瀏覽器上一頁還原時，清掉離場動畫並重新對時 */
+    document.documentElement.classList.remove('leaving-to-about');
+    syncMode();
+  });
+
+  /* 字型載入後重算字元位置 */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { cacheRects(); });
+  }
+})();
+</script>
+<!-- © 2026 Kanekoe (Gouzei). All rights reserved. -->
+<p id="site-credit" class="site-credit">© 2026 Kanekoe (Gouzei). All rights reserved.</p>
+<script src="assets/site-year.js"></script>
+<div id="protection-overlay" class="protection-overlay" aria-live="assertive" aria-hidden="true">
+  <div class="protection-panel" role="alert">
+    <p class="protection-kicker">保 護 提 示</p>
+    <p id="protection-message" class="protection-message">請關閉開發者模式後才可以繼續閱覽網頁。</p>
+  </div>
+</div>
+<script src="assets/devtools-protection.js"></script>
+</body>
+</html>
