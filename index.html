@@ -152,16 +152,17 @@
     }
     #memorial-row {
       display: flex; flex-direction: row;
-      gap: clamp(24px, 3vw, 56px); align-items: flex-start;
+      gap: clamp(30px, 3.3vw, 48px); align-items: flex-start;
     }
+    /* 電腦版：橫向長方框並排。直排的呼吸在欄距，框壓扁反而鬆 */
     #memorial-box-l, #memorial-box-r {
       border: 1px solid rgba(0,0,0,0.20);
-      width: min(68svh, 30vw, 520px); height: min(68svh, 30vw, 520px);
-      overflow: hidden; padding: calc(min(68svh, 30vw, 520px) * 0.035); flex: none;
+      width: calc(min(52svh, 28.5vw, 412px) * 1.30); height: min(52svh, 28.5vw, 412px);
+      overflow: hidden; padding: calc(min(52svh, 28.5vw, 412px) * 0.062); flex: none;
     }
     #memorial-grid-l, #memorial-grid-r {
       display: grid; width: 100%; height: 100%;
-      pointer-events: none; font-size: calc(min(68svh, 30vw, 520px) / 14);
+      pointer-events: none; font-size: calc(min(52svh, 28.5vw, 412px) / 16.1);
     }
     #dedication {
       margin-top: clamp(18px, 2.4vh, 34px);
@@ -661,15 +662,16 @@
       el.quoteBox.style.height = 'min(72svh, 62vw, 720px)';
       el.quoteBox.style.padding = 'clamp(14px, 2vmin, 28px)';
       el.quoteGrid.style.fontSize = 'clamp(34px, 8.6vmin, 96px)';
-      var w = 'min(68svh, 30vw, 520px)';
+      /* 紀念版電腦版：橫向長方框並排，欄距拉開、字級收一階 */
+      var h = 'min(52svh, 28.5vw, 412px)';
       [el.memBoxL, el.memBoxR].forEach(function (b) {
-        b.style.width = w; b.style.height = w;
-        b.style.padding = 'calc(' + w + ' * 0.035)';
+        b.style.width = 'calc(' + h + ' * 1.30)'; b.style.height = h;
+        b.style.padding = 'calc(' + h + ' * 0.062)';
       });
-      [el.memGridL, el.memGridR].forEach(function (g) { g.style.fontSize = 'calc(' + w + ' / 14)'; });
+      [el.memGridL, el.memGridR].forEach(function (g) { g.style.fontSize = 'calc(' + h + ' / 16.1)'; });
       el.memRow.style.flexDirection = 'row';
       el.memRow.style.alignItems = 'flex-start';
-      el.memRow.style.gap = 'clamp(24px, 3vw, 56px)';
+      el.memRow.style.gap = 'clamp(30px, 3.3vw, 48px)';
       el.dedication.style.fontSize = 'clamp(11px, 0.95vw, 15px)';
       el.dedication.style.letterSpacing = '0.6em';
       el.dedication.style.textIndent = '0.6em';
